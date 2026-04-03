@@ -2,18 +2,8 @@
 
 import { LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import {
-  Call,
-  CallingState,
-  StreamCall,
-  StreamVideo,
-  StreamVideoClient,
-} from "@stream-io/video-react-sdk";
+import "@livekit/components-styles";
 
-import { useTRPC } from "@/trpc/client";
-
-import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { CallUI } from "./call-ui";
 
 interface Props {
@@ -22,59 +12,52 @@ interface Props {
   userId: string;
   userName: string;
   userImage: string;
-};
+}
 
 export const CallConnect = ({
   meetingId,
   meetingName,
   userId,
   userName,
-  userImage,
 }: Props) => {
-  const trpc = useTRPC();
-  const { mutateAsync: generateToken } = useMutation(
-    trpc.meetings.generateToken.mutationOptions(),
-  );
+  const [token, setToken] = useState<string>();
+  const [error, setError] = useState<string>();
 
-  const [client, setClient] = useState<StreamVideoClient>();
+  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
+
   useEffect(() => {
-    const _client = new StreamVideoClient({
-      apiKey: process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
-      user: {
-        id: userId,
-        name: userName,
-        image: userImage,
-      },
-      tokenProvider: generateToken,
-    });
-
-    setClient(_client);
-
-    return () => {
-      _client.disconnectUser();
-      setClient(undefined);
-    };
-  }, [userId, userName, userImage, generateToken]);
-
-  const [call, setCall] = useState<Call>();
-  useEffect(() => {
-      if (!client) return;
-
-      const _call = client.call("default", meetingId);
-      _call.camera.disable();
-      _call.microphone.disable();
-      setCall(_call);
-
-      return () => {
-        if (_call.state.callingState !== CallingState.LEFT) {
-          _call.leave();
-          _call.endCall();
-          setCall(undefined);
+    const fetchToken = async () => {
+      try {
+        const res = await fetch(
+          `/api/livekit/token?room=${encodeURIComponent(meetingId)}&identity=${encodeURIComponent(userId)}&name=${encodeURIComponent(userName)}`
+        );
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ error: "Token fetch failed" }));
+          throw new Error(err.error || "Token fetch failed");
         }
-      };
-  }, [client, meetingId]);
+        const data = await res.json();
+        setToken(data.token);
+      } catch (err) {
+        console.error("[CallConnect] token error:", err);
+        setError(err instanceof Error ? err.message : "Failed to get token");
+      }
+    };
 
-  if (!client || !call) {
+    fetchToken();
+  }, [meetingId, userId, userName]);
+
+  if (error) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
+        <div className="flex flex-col items-center gap-4 text-white">
+          <p className="text-lg font-medium">Failed to connect</p>
+          <p className="text-sm text-white/70">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!token || !serverUrl) {
     return (
       <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
         <LoaderIcon className="size-6 animate-spin text-white" />
@@ -83,10 +66,10 @@ export const CallConnect = ({
   }
 
   return (
-    <StreamVideo client={client}>
-      <StreamCall call={call}>
-        <CallUI meetingName={meetingName} />
-      </StreamCall>
-    </StreamVideo>
+    <CallUI
+      meetingName={meetingName}
+      token={token}
+      serverUrl={serverUrl}
+    />
   );
 };

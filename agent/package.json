@@ -1,0 +1,23 @@
+{
+  "name": "meetai-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --import tsx/esm src/agent.ts dev",
+    "start": "node --import tsx/esm src/agent.ts start",
+    "build": "tsc",
+    "download-files": "node --import tsx/esm src/agent.ts download-files"
+  },
+  "dependencies": {
+    "@livekit/agents": "^1.2.3",
+    "@livekit/agents-plugin-google": "^1.2.3",
+    "@livekit/agents-plugin-silero": "^1.2.3",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

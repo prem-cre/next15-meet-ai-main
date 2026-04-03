@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { WebhookReceiver } from "livekit-server-sdk";
 
 import { db } from "@/db";
-import { agents, meetings } from "@/db/schema";
+import { meetings } from "@/db/schema";
 import { inngest } from "@/inngest/client";
 
 // LiveKit Webhook Receiver — verifies every incoming event with our API secret

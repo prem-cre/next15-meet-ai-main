@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { StreamTheme, useCall } from "@stream-io/video-react-sdk";
+import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
+import "@livekit/components-styles";
 
 import { CallLobby } from "./call-lobby";
 import { CallActive } from "./call-active";
@@ -7,32 +10,32 @@ import { CallEnded } from "./call-ended";
 
 interface Props {
   meetingName: string;
-};
+  token: string;
+  serverUrl: string;
+}
 
-export const CallUI = ({ meetingName }: Props) => {
-  const call = useCall();
+export const CallUI = ({ meetingName, token, serverUrl }: Props) => {
   const [show, setShow] = useState<"lobby" | "call" | "ended">("lobby");
 
-  const handleJoin = async () => {
-    if (!call) return;
-
-    await call.join();
-
-    setShow("call");
-  };
-
-  const handleLeave = () => {
-    if (!call) return;
-
-    call.endCall();
-    setShow("ended");
-  };
-
   return (
-    <StreamTheme className="h-full">
-      {show === "lobby" && <CallLobby onJoin={handleJoin} />}
-      {show === "call" && <CallActive onLeave={handleLeave} meetingName={meetingName} />}
+    <div className="h-full">
+      {show === "lobby" && <CallLobby onJoin={() => setShow("call")} />}
+      
+      {show === "call" && (
+        <LiveKitRoom
+          token={token}
+          serverUrl={serverUrl}
+          connect={true}
+          className="h-full"
+          data-lk-theme="default"
+          onDisconnected={() => setShow("ended")}
+        >
+          <RoomAudioRenderer />
+          <CallActive meetingName={meetingName} />
+        </LiveKitRoom>
+      )}
+
       {show === "ended" && <CallEnded />}
-    </StreamTheme>
-  )
+    </div>
+  );
 };

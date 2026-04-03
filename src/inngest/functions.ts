@@ -1,6 +1,6 @@
 import { eq, inArray } from "drizzle-orm";
 import JSONL from "jsonl-parse-stringify";
-import { createAgent, openai, TextMessage } from "@inngest/agent-kit";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { db } from "@/db";
 import { agents, meetings, user } from "@/db/schema";
@@ -8,9 +8,9 @@ import { inngest } from "@/inngest/client";
 
 import { StreamTranscriptItem } from "@/modules/meetings/types";
 
-const summarizer = createAgent({
-  name: "summarizer",
-  system: `
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? "");
+
+const SUMMARIZER_SYSTEM_PROMPT = `
 You are an expert meeting summarizer. You write readable, concise, and well-structured content.
 You are given a transcript of a meeting and need to summarize it clearly.
 
@@ -31,66 +31,107 @@ Example:
 #### Next Section
 - Feature X does Y
 - Integration with Z was mentioned
-  `.trim(),
-  model: openai({
-    model: "gpt-4o",
-    apiKey: process.env.OPENAI_API_KEY,
-  }),
-});
+`.trim();
 
 export const meetingsProcessing = inngest.createFunction(
   { id: "meetings/processing" },
   { event: "meetings/processing" },
   async ({ event, step }) => {
-    // Step 1: Fetch the raw JSONL transcript from Stream
-    const response = await step.run("fetch-transcript", async () => {
-      return fetch(event.data.transcriptUrl).then((res) => res.text());
+    // Step 1: Get the transcript text
+    // It could come as inline text from the agent or as a URL from LiveKit egress
+    const transcriptRaw = await step.run("get-transcript", async () => {
+      // Inline transcript text sent directly by the agent
+      if (event.data.transcriptText) {
+        return event.data.transcriptText as string;
+      }
+      // Fallback: fetch from URL (LiveKit egress or old Stream format)
+      if (event.data.transcriptUrl) {
+        return await fetch(event.data.transcriptUrl).then((res) => res.text());
+      }
+      return "";
     });
 
-    // Step 2: Parse JSONL into transcript items
-    const transcript = await step.run("parse-transcript", async () => {
-      return JSONL.parse<StreamTranscriptItem>(response);
-    });
-
-    // Step 3: Resolve speaker IDs to names
-    const transcriptWithSpeakers = await step.run("add-speakers", async () => {
-      const speakerIds = [...new Set(transcript.map((item) => item.speaker_id))];
-
-      const userSpeakers = await db
-        .select()
-        .from(user)
-        .where(inArray(user.id, speakerIds))
-        .then((rows) => rows.map((u) => ({ ...u })));
-
-      const agentSpeakers = await db
-        .select()
-        .from(agents)
-        .where(inArray(agents.id, speakerIds))
-        .then((rows) => rows.map((a) => ({ ...a })));
-
-      const speakers = [...userSpeakers, ...agentSpeakers];
-
-      return transcript.map((item) => {
-        const speaker = speakers.find((s) => s.id === item.speaker_id);
-        return {
-          ...item,
-          user: { name: speaker?.name ?? "Unknown" },
-        };
+    if (!transcriptRaw || transcriptRaw.trim().length === 0) {
+      // No transcript → mark as completed immediately
+      await step.run("no-transcript", async () => {
+        await db
+          .update(meetings)
+          .set({ status: "completed", summary: "No transcript available for this meeting." })
+          .where(eq(meetings.id, event.data.meetingId));
       });
+      return;
+    }
+
+    // Step 2: Parse transcript (supports JSONL and plain text)
+    const formattedTranscript = await step.run("format-transcript", async () => {
+      // Try parsing as JSONL first
+      try {
+        const parsed = JSONL.parse<StreamTranscriptItem>(transcriptRaw);
+        if (parsed.length > 0) {
+          // Resolve speaker IDs to names
+          const speakerIds = [...new Set(parsed.map((item) => item.speaker_id))];
+
+          const userSpeakers = await db
+            .select()
+            .from(user)
+            .where(inArray(user.id, speakerIds))
+            .then((rows) => rows.map((u) => ({ ...u })));
+
+          const agentSpeakers = await db
+            .select()
+            .from(agents)
+            .where(inArray(agents.id, speakerIds))
+            .then((rows) => rows.map((a) => ({ ...a })));
+
+          const speakers = [...userSpeakers, ...agentSpeakers];
+
+          return parsed
+            .map((item) => {
+              const speaker = speakers.find((s) => s.id === item.speaker_id);
+              const name = speaker?.name ?? "Unknown";
+              return `[${name}]: ${item.text}`;
+            })
+            .join("\n");
+        }
+      } catch {
+        // Not JSONL — use as plain text
+      }
+
+      // Plain text transcript (from agent)
+      return transcriptRaw;
     });
 
-    // Step 4: Run the AI summarizer
-    const { output } = await summarizer.run(
-      "Summarize the following meeting transcript:\n\n" +
-        JSON.stringify(transcriptWithSpeakers)
-    );
+    // Step 3: Run the Gemini summarizer
+    const summary = await step.run("generate-summary", async () => {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
-    // Step 5: Save summary and mark meeting as completed
+      const result = await model.generateContent({
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: `${SUMMARIZER_SYSTEM_PROMPT}\n\n--- TRANSCRIPT ---\n${formattedTranscript}`,
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          maxOutputTokens: 2048,
+          temperature: 0.3,
+        },
+      });
+
+      const response = result.response;
+      return response.text();
+    });
+
+    // Step 4: Save summary and mark meeting as completed
     await step.run("save-summary", async () => {
       await db
         .update(meetings)
         .set({
-          summary: (output[0] as TextMessage).content as string,
+          summary,
           status: "completed",
         })
         .where(eq(meetings.id, event.data.meetingId));
