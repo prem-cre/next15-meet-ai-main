@@ -113,6 +113,20 @@ export const meetingsRouter = createTRPCRouter({
       });
     }),
 
+  // ── Dispatch Agent ──────────────────────────────────────────────────────────
+  dispatchAgent: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      try {
+        const { agentDispatchService } = await import("@/lib/livekit-server");
+        await agentDispatchService.createDispatch(input.id, "meetai-agent");
+        return { success: true };
+      } catch (err) {
+        console.error("Failed to dispatch agent:", err);
+        return { success: false, error: "Failed to dispatch agent" };
+      }
+    }),
+
   // ── Remove ──────────────────────────────────────────────────────────────────
   remove: protectedProcedure
     .input(z.object({ id: z.string() }))

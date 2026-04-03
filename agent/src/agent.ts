@@ -1,144 +1,122 @@
 import {
   type JobContext,
-  type JobProcess,
   ServerOptions,
   cli,
   defineAgent,
   voice,
 } from "@livekit/agents";
 import * as google from "@livekit/agents-plugin-google";
-import * as silero from "@livekit/agents-plugin-silero";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
-import { MeetAIAgent } from "./meet-agent";
+import path from "node:path";
 
 // Load env from parent directory's .env (shared with Next.js)
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
-/**
- * MeetAI Voice Agent
- *
- * This agent runs as a separate Node.js process alongside the Next.js app.
- * It connects to LiveKit Cloud and auto-joins rooms when participants connect.
- *
- * Architecture:
- *   1. User creates a meeting → Next.js creates a LiveKit room with agent metadata
- *   2. User joins the room → LiveKit dispatches this agent to the room
- *   3. Agent reads room metadata to get the AI persona/instructions
- *   4. Agent uses Gemini for LLM, Google Cloud STT/TTS, and Silero for VAD
- *   5. When user leaves → agent sends transcript to /api/meetings/[id]/end-session
- *   6. Inngest picks up the event and generates a summary using Gemini
- *
- * Uses LiveKit Inference with Gemini 2.5 Flash Lite (no separate API key needed)
- * OR the Google plugin with your own GOOGLE_API_KEY / GEMINI_API_KEY.
- */
+console.log("[agent] LIVEKIT_URL:", process.env.LIVEKIT_URL);
+console.log("[agent] GOOGLE_API_KEY:", process.env.GOOGLE_API_KEY ? "EXISTS" : "MISSING");
+console.log("[agent] AGENT_SECRET:", process.env.AGENT_SECRET ? "EXISTS" : "MISSING");
+
+// Agent class — extends LiveKit voice.Agent with dynamic instructions
+class MeetAIAgent extends voice.Agent {
+  constructor(instructions: string) {
+    super({
+      instructions: instructions || "You are a helpful AI meeting assistant.",
+    });
+  }
+}
 
 export default defineAgent({
-  prewarm: async (proc: JobProcess) => {
-    // Load VAD model once during prewarm for fast startup
-    proc.userData.vad = await silero.VAD.load();
-  },
-
   entry: async (ctx: JobContext) => {
-    const vad = ctx.proc.userData.vad! as silero.VAD;
+    // Connect first so room.name is populated
+    await ctx.connect();
+    console.log(`[agent] ✅ Connected to room: ${ctx.room.name}`);
 
-    // Parse room metadata to get agent instructions
-    let instructions = "You are a helpful AI meeting assistant. Greet the user warmly and help them with their questions.";
+    // Parse room metadata for custom persona + instructions
+    let instructions =
+      "You are a helpful AI meeting assistant. Greet the user warmly and help them with their questions.";
     let agentName = "AI Assistant";
 
     try {
-      const metadata = JSON.parse(ctx.room.metadata || "{}");
-      if (metadata.instructions) {
-        instructions = metadata.instructions;
-      }
-      if (metadata.agentName) {
-        agentName = metadata.agentName;
-      }
+      const meta = JSON.parse(ctx.room.metadata || "{}");
+      if (meta.instructions) instructions = meta.instructions;
+      if (meta.agentName) agentName = meta.agentName;
+      console.log(`[agent] Persona: "${agentName}"`);
     } catch {
-      console.log("[agent] No metadata found, using defaults");
+      console.log("[agent] No valid metadata, using defaults");
     }
 
-    console.log(`[agent] Joining room ${ctx.room.name} as "${agentName}"`);
-    console.log(`[agent] Instructions: ${instructions.slice(0, 100)}...`);
-
-    // Determine which API key approach to use
-    const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-
-    // Build the voice agent session
-    // If we have a direct Gemini API key, use the Google plugin
-    // Otherwise, use LiveKit Inference (no separate key needed)
-    const sessionConfig: voice.AgentSessionOptions = {
-      vad,
-      // STT: Use LiveKit Inference Deepgram or Google plugin
-      stt: geminiApiKey
-        ? new google.STT({ apiKey: geminiApiKey })
-        : "deepgram/nova-3",
-      // LLM: Use Gemini 2.5 Flash Lite
-      llm: geminiApiKey
-        ? new google.LLM({ model: "gemini-2.5-flash-lite", apiKey: geminiApiKey })
-        : "google/gemini-2.5-flash-lite",
-      // TTS: Use Google plugin or LiveKit Inference
-      tts: geminiApiKey
-        ? new google.TTS({ apiKey: geminiApiKey })
-        : "google/chirp-hd",
-    };
-
-    const session = new voice.AgentSession(sessionConfig);
-
-    // Track conversation for transcript
+    const geminiApiKey =
+      process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY || "";
     const transcript: string[] = [];
 
-    session.on("agent_speech_committed", (ev) => {
-      transcript.push(`[${agentName}]: ${ev.content}`);
+    // gemini-2.5-flash-native-audio-preview-12-2025 is the current working model
+    // for Gemini Developer API (bidiGenerateContent / Live API)
+    // gemini-2.0-flash-exp was deprecated by Google and removed
+    const session = new voice.AgentSession({
+      llm: new google.beta.realtime.RealtimeModel({
+        model: "gemini-2.5-flash-native-audio-preview-12-2025",
+        apiKey: geminiApiKey,
+        voice: "Puck",
+        temperature: 0.8,
+      }),
     });
 
-    session.on("user_speech_committed", (ev) => {
-      transcript.push(`[User]: ${ev.content}`);
+    // Collect transcript lines for the post-meeting summary
+    session.on("user_speech_committed", (ev: any) => {
+      if (ev?.transcript) {
+        transcript.push(`[User]: ${ev.transcript}`);
+      }
+    });
+    session.on("agent_speech_committed", (ev: any) => {
+      if (ev?.transcript) {
+        transcript.push(`[${agentName}]: ${ev.transcript}`);
+      }
     });
 
-    // Start the session
     await session.start({
       agent: new MeetAIAgent(instructions),
       room: ctx.room,
     });
+    console.log("[agent] ✅ Session started");
 
-    // Connect to the room
-    await ctx.connect();
-
-    // Generate initial greeting
+    // Greet the user
     await session.generateReply({
-      instructions: `Greet the user as "${agentName}". Introduce yourself based on your instructions and offer assistance.`,
+      instructions: `Greet the user warmly as "${agentName}". Introduce yourself based on your instructions and offer assistance.`,
     });
+    console.log("[agent] ✅ Greeting sent");
 
-    // Handle room close — send transcript to Next.js API
+    // When the room closes: push transcript to our Next.js API
     ctx.room.on("disconnected", async () => {
-      console.log(`[agent] Room ${ctx.room.name} disconnected. Sending transcript...`);
+      const roomName = ctx.room.name;
+      console.log(
+        `[agent] Room "${roomName}" closed. Transcript lines: ${transcript.length}`
+      );
+      if (transcript.length === 0) return;
 
-      if (transcript.length > 0) {
-        try {
-          const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-          const meetingId = ctx.room.name;
-
-          await fetch(`${appUrl}/api/meetings/${meetingId}/end-session`, {
+      try {
+        const appUrl =
+          process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+        const res = await fetch(
+          `${appUrl}/api/meetings/${roomName}/end-session`,
+          {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "x-agent-secret": process.env.AGENT_SECRET || "",
             },
-            body: JSON.stringify({
-              transcriptText: transcript.join("\n"),
-            }),
-          });
-          console.log(`[agent] ✅ Transcript sent for meeting ${meetingId}`);
-        } catch (err) {
-          console.error("[agent] ❌ Failed to send transcript:", err);
-        }
+            body: JSON.stringify({ transcriptText: transcript.join("\n") }),
+          }
+        );
+        console.log(`[agent] ✅ Transcript sent — HTTP ${res.status}`);
+      } catch (err) {
+        console.error(`[agent] ❌ Failed to send transcript:`, err);
       }
     });
   },
 });
 
-// Run the agent worker
+// Boot the agent worker
 cli.runApp(
   new ServerOptions({
     agent: fileURLToPath(import.meta.url),

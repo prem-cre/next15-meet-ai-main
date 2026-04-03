@@ -1,115 +1,89 @@
-# 🚀 MeetAI — Complete Startup Guide
+# Meet.AI — Technical Documentation & System Overview
 
-## ⚡ EVERY TIME You Run the App: 3 Terminals Required
+## 1. Architecture Overview
+Meet.AI is a real-time AI meeting assistant platform built on **Next.js 15**, **LiveKit Cloud**, and **Google Gemini 2.x**. The system is designed to provide ultra-low latency, multimodal voice interactions and automated post-meeting intelligence (summaries and transcripts).
 
----
-
-## Terminal 1 — Next.js App
-```bash
-cd "C:\Users\mahan\Documents\me\next15-meet-ai"
-npm run dev
-```
-App → http://localhost:3000
-
----
-
-## Terminal 2 — ngrok Tunnel (AGENT WON'T JOIN WITHOUT THIS)
-```bash
-cd "C:\Users\mahan\Documents\me\next15-meet-ai"
-npm run dev:webhook
-```
-This runs ngrok at your static URL:
-**https://nonnominalistic-impermanent-miss.ngrok-free.dev**
+### High-Level Flow
+1. **Meeting Creation**: Next.js server creates a LiveKit Room and initializes metadata (persona name, instructions) in the database.
+2. **Real-time Session**:
+   - When a human joins, a **LiveKit Webhook** triggers the **Agent Worker**.
+   - The Agent joins as a participant and connects via the **Gemini Live API (Multimodal)**.
+   - Conversation is handled by a native-audio model with custom **STT Turn Detection** for human-like interruption handling.
+3. **Processing**:
+   - Upon participant departure, the Agent submits the full transcript to our `/end-session` API.
+   - **Inngest** triggers a background job to generate an executive summary using Gemini.
+   - The final transcript and summary are stored in the Postgres (Neon) database.
 
 ---
 
-## Terminal 3 — Inngest Dev Server (for post-meeting summaries)
-```bash
-npx inngest-cli@latest dev -u http://localhost:3000/api/inngest
-```
+## 2. Core Service Directory (`src/`)
+
+### API Routes & Webhooks
+- `src/app/api/webhook/route.ts`: The central nervous system for LiveKit events.
+  - `participant_joined`: Activates the meeting and dispatches the AI agent.
+  - `participant_left`: Handles session cleanup.
+  - `egress_ended`: Saves final recording/transcript URLs.
+- `src/app/api/livekit/token/route.ts`: Issues JWT tokens for human participants.
+- `src/app/api/meetings/[meetingId]/end-session/route.ts`: Internal endpoint used by the AI Agent to submit transcripts after a call finishes. Secured by `x-agent-secret`.
+
+### Modules (Shared UI & Logic)
+- `src/modules/call/`: Frontend meeting interface.
+  - `ui/components/call-active.tsx`: The main meeting grid. Includes `Microphone` sources for AI visibility.
+  - `ui/components/call-connect.tsx`: Handles Token fetching and initial room connection.
+- `src/modules/meetings/`: Management and post-call analytics.
+  - `server/procedures.ts`: tRPC mutations for meeting lifecycle (Create, Update, Remove).
 
 ---
 
-## 🔍 Step 1: Verify Everything Works (DO THIS FIRST)
+## 3. AI Agent Worker (`agent/`)
 
-Open this in your browser AFTER starting all 3 terminals:
-```
-http://localhost:3000/api/debug
-```
-You'll see a JSON response showing ✅ or ❌ for each system.
-ALL checks must show ✅ before testing meetings.
+The agent is a standalone Node.js process using the `@livekit/agents` framework.
 
----
+### Key Components
+- `agent/src/agent.ts`: The entry point for the worker.
+  - Uses `google.beta.realtime.RealtimeModel` for native audio LLM logic.
+  - Implements `MultilingualModel` turn detection to allow users to interrupt the AI naturally.
+  - Handles the `disconnected` event to push the transcript to the backend.
+- `agent/src/meet-agent.ts`: A specialized extension of the `voice.Agent` class that initializes instructions dynamicallly from room metadata.
 
-## 🔧 One-Time Setup: Stream Dashboard Webhook (CRITICAL)
-
-This is the MOST IMPORTANT step. Without it, the agent NEVER joins.
-
-1. Go to https://dashboard.getstream.io
-2. Select your app (API key: `wftqsyu83p2d`)
-3. Go to **Video & Audio → Webhooks**
-4. Add/Update webhook:
-   - **URL**: `https://nonnominalistic-impermanent-miss.ngrok-free.dev/api/webhook`
-   - **Enable these events** (check all):
-     - ✅ `call.session_started`
-     - ✅ `call.session_participant_left`
-     - ✅ `call.session_ended`
-     - ✅ `call.transcription_ready`
-     - ✅ `call.recording_ready`
-5. Save webhook.
-
-> ✅ Since you have a static ngrok domain, you only need to do this ONCE.
+#### Environment Variables for Agent
+- `LIVEKIT_URL` / `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET`: LiveKit connection info.
+- `GOOGLE_API_KEY`: Required for Gemini Realtime API.
+- `AGENT_SECRET`: Shared secret used to authenticate with the backend `/end-session` API.
 
 ---
 
-## ✅ How to Test the Agent is Working
+## 4. Stability & Lifecycle Fixes (Current State)
 
-1. Start all 3 terminals above
-2. Open http://localhost:3000/api/debug — all must be ✅
-3. Sign in to http://localhost:3000
-4. Create an Agent (Agents tab)
-5. Create a Meeting, assign that agent
-6. Start the meeting, allow mic + camera, click Join
-7. **Watch your Terminal 1 (Next.js) logs** — you should see:
+### Fix: Agent Joining (Dispatch)
+We transition from "dispatch-on-create" to **"dispatch-on-join"**. The agent is now summoned by the `participant_joined` webhook. For local development robustness, we've also wired the human join logic to verify if an agent dispatch is needed if the webhook isn't reachable from LiveKit Cloud.
+
+### Fix: Hydration & Rendering
+- **Root Layout Mismatch**: Fixed by moving provider components inside the `<body>` tag.
+- **Infinite Effect Loops**: Stabilized `useEffect` hooks across `call-connect.tsx` and `sidebar.tsx` by ensuring stable dependency arrays and implementing cancellation logic for unmounted components.
+
+---
+
+## 5. Development Guide
+
+### Prerequisites
+- Node.js 20+
+- LiveKit Cloud account
+- Google Gemini API Key
+
+### Setup Instructions
+1. Install dependencies: `npm install` (root) and `cd agent && npm install`.
+2. Configure `.env`: Copy `.env.example`, fill in LiveKit and Google keys.
+3. Run the stack:
+   ```bash
+   # Terminal 1: Next.js Frontend
+   npm run dev
+
+   # Terminal 2: AI Agent Worker
+   cd agent
+   npm run dev
    ```
-   [webhook] 📨 Received event: call.session_started
-   [webhook] ✅ Meeting found: ...
-   [webhook] 🤖 Connecting agent: ...
-   [webhook] ✅ connectOpenAi succeeded
-   [webhook] 📌 realtimeClient stored
-   ```
-8. Within 5 seconds the agent appears in the call and starts talking
 
----
-
-## ❗ Common Issues & Fixes
-
-| Symptom | Root Cause | Fix |
-|---------|-----------|-----|
-| Agent never joins, no webhook logs | Stream Dashboard webhook not set | Set webhook URL in Stream Dashboard (step above) |
-| Webhook logs show but agent doesn't speak | OpenAI key invalid/no credits | Check http://localhost:3000/api/debug |
-| `[webhook] ❌ Signature verification failed` | Wrong `STREAM_VIDEO_SECRET_KEY` | Verify key in .env matches Stream Dashboard |
-| `[webhook] ❌ Meeting not found` | Meeting status wrong in DB | Delete old meetings, create a fresh one |
-| Inngest shows no events after joining | Normal! Inngest only runs AFTER meeting ends | This is correct behaviour |
-| Meeting stuck "processing" | Inngest dev server not running | Start Terminal 3 |
-
----
-
-## 🔑 Required .env Values
-
-```env
-DATABASE_URL="postgresql://..."
-BETTER_AUTH_SECRET="..."
-BETTER_AUTH_URL="http://localhost:3000"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
-GITHUB_CLIENT_ID="..."
-GITHUB_CLIENT_SECRET="..."
-GOOGLE_CLIENT_ID="..."
-GOOGLE_CLIENT_SECRET="..."
-NEXT_PUBLIC_STREAM_VIDEO_API_KEY="..."
-STREAM_VIDEO_SECRET_KEY="..."
-NEXT_PUBLIC_STREAM_CHAT_API_KEY="..."
-STREAM_CHAT_SECRET_KEY="..."
-OPENAI_API_KEY="sk-..."
-POLAR_ACCESS_TOKEN="..."
-```
+### Troubleshooting
+- **Agent not joining**: Verify your `LIVEKIT_URL` matches between `.env` and `agent/.env`. Ensure the agent worker process is running and showing `edition: Cloud` in logs.
+- **Transcript missing**: Check `AGENT_SECRET` consistency. Verify that your local dev server is accessible if testing webhooks (use `ngrok` for `egress_ended` events).

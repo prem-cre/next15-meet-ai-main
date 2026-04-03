@@ -1,0 +1,40 @@
+[2026-04-03T18:00:46.673Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:00:46.680Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:00:46.692Z] ❌ Signature verification failed: Error: sha256 checksum of body does not match
+[2026-04-03T18:00:46.835Z] 📨 room_started | room: 8ZlM-o9l3wDnFRoPbnynz | participant: 
+[2026-04-03T18:01:36.550Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:01:36.559Z] 📨 participant_joined | room: 8ZlM-o9l3wDnFRoPbnynz | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:03:02.328Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:03:02.333Z] 📨 participant_left | room: 8ZlM-o9l3wDnFRoPbnynz | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:03:43.119Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:03:43.121Z] 📨 room_finished | room: 8ZlM-o9l3wDnFRoPbnynz | participant: 
+[2026-04-03T18:09:48.444Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:09:48.451Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:09:48.453Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:09:48.546Z] ❌ Signature verification failed: Error: sha256 checksum of body does not match
+[2026-04-03T18:09:48.800Z] ❌ Signature verification failed: Error: sha256 checksum of body does not match
+[2026-04-03T18:09:48.955Z] ❌ Signature verification failed: Error: sha256 checksum of body does not match
+[2026-04-03T18:11:09.221Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:11:09.231Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:11:09.253Z] ❌ Signature verification failed: Error: sha256 checksum of body does not match
+[2026-04-03T18:11:09.518Z] 📨 participant_joined | room: pizR9q0O_bPwuTMj70Zli | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:11:11.197Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:11:11.201Z] 📨 participant_joined | room: pizR9q0O_bPwuTMj70Zli | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:15:08.026Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:15:08.028Z] 📨 participant_left | room: pizR9q0O_bPwuTMj70Zli | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:15:08.029Z] 👋 Human participant left room pizR9q0O_bPwuTMj70Zli
+[2026-04-03T18:15:47.633Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:15:47.637Z] 📨 room_finished | room: pizR9q0O_bPwuTMj70Zli | participant: 
+[2026-04-03T18:17:47.759Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:17:47.761Z] 📨 room_started | room: 6dHYheKMSuslAVTf2by9P | participant: 
+[2026-04-03T18:18:55.054Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:18:55.058Z] 📨 participant_joined | room: 6dHYheKMSuslAVTf2by9P | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:18:56.282Z] ✅ Meeting 6dHYheKMSuslAVTf2by9P marked as active (from status: active)
+[2026-04-03T18:18:56.283Z] Checking for existing agents in room 6dHYheKMSuslAVTf2by9P...
+[2026-04-03T18:18:56.425Z] Summoning agent 'meetai-agent' to room 6dHYheKMSuslAVTf2by9P...
+[2026-04-03T18:18:56.590Z] 🤖 Agent dispatched successfully. Dispatch ID: AD_xH3rc5okefXK
+[2026-04-03T18:19:33.508Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:19:33.512Z] 📨 participant_left | room: 6dHYheKMSuslAVTf2by9P | participant: n7vEysJr40U4fx2oDdrWzHfJOnQr98tA
+[2026-04-03T18:19:33.513Z] 👋 Human participant left room 6dHYheKMSuslAVTf2by9P
+[2026-04-03T18:20:13.810Z] Received webhook request to https://localhost:3000/api/webhook
+[2026-04-03T18:20:13.812Z] 📨 room_finished | room: 6dHYheKMSuslAVTf2by9P | participant: 

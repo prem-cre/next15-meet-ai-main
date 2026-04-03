@@ -1,5 +1,5 @@
 import "server-only";
-import { AccessToken, RoomServiceClient } from "livekit-server-sdk";
+import { AccessToken, RoomServiceClient, AgentDispatchClient } from "livekit-server-sdk";
 
 const livekitUrl = process.env.LIVEKIT_URL!;
 const apiKey = process.env.LIVEKIT_API_KEY!;
@@ -11,6 +11,7 @@ const httpUrl = livekitUrl
   .replace("ws://", "http://");
 
 export const roomService = new RoomServiceClient(httpUrl, apiKey, apiSecret);
+export const agentDispatchService = new AgentDispatchClient(httpUrl, apiKey, apiSecret);
 
 /**
  * Generate a signed JWT token for a participant to join a LiveKit room.

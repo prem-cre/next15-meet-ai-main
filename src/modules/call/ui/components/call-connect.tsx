@@ -25,7 +25,13 @@ export const CallConnect = ({
 
   const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
+  // NOTE: Do NOT put `dispatchAgent` in useEffect deps — its identity changes
+  // every render and would cause infinite re-fetches / infinite room openings.
+  // Agent dispatch is handled server-side by the webhook on participant_joined.
+
   useEffect(() => {
+    let cancelled = false;
+
     const fetchToken = async () => {
       try {
         const res = await fetch(
@@ -36,14 +42,23 @@ export const CallConnect = ({
           throw new Error(err.error || "Token fetch failed");
         }
         const data = await res.json();
-        setToken(data.token);
+        if (!cancelled) {
+          setToken(data.token);
+        }
       } catch (err) {
-        console.error("[CallConnect] token error:", err);
-        setError(err instanceof Error ? err.message : "Failed to get token");
+        if (!cancelled) {
+          console.error("[CallConnect] token error:", err);
+          setError(err instanceof Error ? err.message : "Failed to get token");
+        }
       }
     };
 
     fetchToken();
+
+    return () => {
+      cancelled = true;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meetingId, userId, userName]);
 
   if (error) {
