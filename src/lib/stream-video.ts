@@ -1,8 +1,4 @@
-import "server-only";
-
-import { StreamClient } from "@stream-io/node-sdk";
-
-export const streamVideo = new StreamClient(
-  process.env.NEXT_PUBLIC_STREAM_VIDEO_API_KEY!,
-  process.env.STREAM_VIDEO_SECRET_KEY!
-);
+// Stream Video is replaced by LiveKit.
+// This file is kept so old imports don't break during transition.
+// All video functionality is now in src/lib/livekit.ts
+export {};
