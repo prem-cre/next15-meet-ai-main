@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+node_modules/
+.env
+.next/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
