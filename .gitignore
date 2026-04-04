@@ -24,9 +24,12 @@
 .DS_Store
 *.pem
 
-node_modules/
-.env
-.next/
+# Debug & local log files — never commit these
+*.log
+webhook.log
+dev_output.log
+agent_worker_fixed.log
+full_agent*.log
 
 # debug
 npm-debug.log*

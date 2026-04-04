@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "dev:webhook": "ngrok http --url=nonnominalistic-impermanent-miss.ngrok-free.dev 3000"
+    "dev:webhook": "ngrok http --url=nonnominalistic-impermanent-miss.ngrok-free.dev 3000",
+    "dev:inngest": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest"
   },
   "dependencies": {
     "@better-auth/core": "^1.5.6",

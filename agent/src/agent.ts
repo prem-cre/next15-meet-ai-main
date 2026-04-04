@@ -63,14 +63,12 @@ export default defineAgent({
     });
 
     // Collect transcript lines for the post-meeting summary
-    session.on("user_speech_committed", (ev: any) => {
-      if (ev?.transcript) {
-        transcript.push(`[User]: ${ev.transcript}`);
-      }
-    });
-    session.on("agent_speech_committed", (ev: any) => {
-      if (ev?.transcript) {
-        transcript.push(`[${agentName}]: ${ev.transcript}`);
+    session.on(voice.AgentSessionEventTypes.ConversationItemAdded, (ev) => {
+      const { item } = ev;
+      if (item.role === "assistant" && typeof item.content === "string") {
+        transcript.push(`[${agentName}]: ${item.content}`);
+      } else if (item.role === "user" && typeof item.content === "string") {
+        transcript.push(`[User]: ${item.content}`);
       }
     });
 
