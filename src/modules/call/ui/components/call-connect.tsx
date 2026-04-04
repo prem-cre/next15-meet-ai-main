@@ -1,78 +1,68 @@
 "use client";
 
-import { LoaderIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { LoaderIcon } from "lucide-react";
+import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
+
 import "@livekit/components-styles";
+
+import { authClient } from "@/lib/auth-client";
+import { generateAvatarUri } from "@/lib/avatar";
 
 import { CallUI } from "./call-ui";
 
 interface Props {
   meetingId: string;
   meetingName: string;
-  userId: string;
-  userName: string;
-  userImage: string;
 }
 
-export const CallConnect = ({
-  meetingId,
-  meetingName,
-  userId,
-  userName,
-}: Props) => {
-  const [token, setToken] = useState<string>();
-  const [error, setError] = useState<string>();
+/**
+ * CallConnect — fetches a LiveKit token and renders the LiveKitRoom.
+ * The room starts in "not connected" mode so CallUI can show the lobby first.
+ */
+export const CallConnect = ({ meetingId, meetingName }: Props) => {
+  const { data: session } = authClient.useSession();
 
-  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
+  const [token, setToken] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
 
-  // NOTE: Do NOT put `dispatchAgent` in useEffect deps — its identity changes
-  // every render and would cause infinite re-fetches / infinite room openings.
-  // Agent dispatch is handled server-side by the webhook on participant_joined.
+  const userId = session?.user.id ?? "";
+  const userName = session?.user.name ?? "";
+  const userImage =
+    session?.user.image ??
+    generateAvatarUri({ seed: userName, variant: "initials" });
 
   useEffect(() => {
-    let cancelled = false;
+    if (!userId || !userName) return;
 
     const fetchToken = async () => {
       try {
-        const res = await fetch(
-          `/api/livekit/token?room=${encodeURIComponent(meetingId)}&identity=${encodeURIComponent(userId)}&name=${encodeURIComponent(userName)}`
-        );
+        const params = new URLSearchParams({
+          room: meetingId,
+          identity: userId,
+          name: userName,
+        });
+        const res = await fetch(`/api/livekit/token?${params}`);
         if (!res.ok) {
-          const err = await res.json().catch(() => ({ error: "Token fetch failed" }));
-          throw new Error(err.error || "Token fetch failed");
+          const text = await res.text();
+          throw new Error(`HTTP ${res.status}: ${text}`);
         }
         const data = await res.json();
-        if (!cancelled) {
-          setToken(data.token);
-        }
+        if (!data.token) throw new Error("No token in response");
+        setToken(data.token);
       } catch (err) {
-        if (!cancelled) {
-          console.error("[CallConnect] token error:", err);
-          setError(err instanceof Error ? err.message : "Failed to get token");
-        }
+        console.error("[CallConnect] Token fetch failed:", err);
+        setError(String(err));
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchToken();
-
-    return () => {
-      cancelled = true;
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meetingId, userId, userName]);
 
-  if (error) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
-        <div className="flex flex-col items-center gap-4 text-white">
-          <p className="text-lg font-medium">Failed to connect</p>
-          <p className="text-sm text-white/70">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!token || !serverUrl) {
+  if (loading || !userId) {
     return (
       <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
         <LoaderIcon className="size-6 animate-spin text-white" />
@@ -80,11 +70,37 @@ export const CallConnect = ({
     );
   }
 
+  if (error || !token) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-radial from-sidebar-accent to-sidebar">
+        <div className="text-center text-white space-y-2">
+          <p className="text-lg font-medium">Failed to connect</p>
+          <p className="text-sm opacity-75">{error || "Could not get call token"}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <CallUI
-      meetingName={meetingName}
+    <LiveKitRoom
+      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
       token={token}
-      serverUrl={serverUrl}
-    />
+      connect={false}
+      audio={false}
+      video={false}
+      className="h-screen"
+    >
+      {/* Renders remote audio tracks automatically */}
+      <RoomAudioRenderer />
+
+      <CallUI
+        meetingId={meetingId}
+        meetingName={meetingName}
+        userId={userId}
+        userName={userName}
+        userImage={userImage}
+        token={token}
+      />
+    </LiveKitRoom>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import type { Channel as StreamChannel } from "stream-chat";
 import {
@@ -37,14 +37,23 @@ export const ChatUI = ({
   );
 
   const [channel, setChannel] = useState<StreamChannel>();
+
+  // CRITICAL FIX: Stream's useCreateChatClient checks reference equality!
+  // Moving these inline objects to useMemo / useCallback completely stops the infinite re-render loop.
+  const userData = React.useMemo(() => ({
+    id: userId,
+    name: userName,
+    image: userImage,
+  }), [userId, userName, userImage]);
+
+  const tokenProvider = React.useCallback(async () => {
+    return await generateChatToken();
+  }, [generateChatToken]);
+
   const client = useCreateChatClient({
     apiKey: process.env.NEXT_PUBLIC_STREAM_CHAT_API_KEY!,
-    tokenOrProvider: generateChatToken,
-    userData: {
-      id: userId,
-      name: userName,
-      image: userImage,
-    },
+    tokenOrProvider: tokenProvider,
+    userData,
   });
 
   useEffect(() => {

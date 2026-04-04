@@ -4,19 +4,18 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx src/agent.ts dev",
-    "start": "tsx src/agent.ts start",
+    "dev": "node --experimental-strip-types src/agent.ts dev",
+    "start": "node --experimental-strip-types src/agent.ts start",
     "build": "tsc"
   },
   "dependencies": {
-    "@livekit/agents": "^1.2.3",
-    "@livekit/agents-plugin-google": "^1.2.3",
-    "@livekit/rtc-node": "^0.13.24",
+    "@livekit/agents": "1.2.3",
+    "@livekit/agents-plugin-google": "1.2.3",
+    "@livekit/rtc-node": "0.13.24",
     "dotenv": "^16.5.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.3"
   }
 }

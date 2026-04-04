@@ -1,5 +1,4 @@
 import { z } from "zod";
-import JSONL from "jsonl-parse-stringify";
 import { TRPCError } from "@trpc/server";
 import { AccessToken } from "livekit-server-sdk";
 import { and, count, desc, eq, getTableColumns, ilike, inArray, sql } from "drizzle-orm";
@@ -12,11 +11,45 @@ import { streamChat } from "@/lib/stream-chat";
 import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constants";
 
-import { MeetingStatus, StreamTranscriptItem } from "../types";
+import { MeetingStatus } from "../types";
 import { meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 
+// ── Plain text transcript parser ─────────────────────────────────────────────
+// Parses "[Speaker]: text" lines into UI-friendly transcript items
+function parsePlainTextTranscript(text: string) {
+  const lines = text.split("\n").filter((l) => l.trim());
+  return lines
+    .map((line, idx) => {
+      const match = line.match(/^\[(.+?)\]:\s*(.+)$/);
+      if (!match) return null;
+      const [, speaker, content] = match;
+      const isUser = speaker.toLowerCase() === "user";
+      return {
+        speaker_id: isUser ? "user" : "agent",
+        type: "speech",
+        text: content.trim(),
+        start_ts: idx * 2, // approximate timestamp
+        stop_ts: idx * 2 + 2,
+        user: {
+          name: speaker,
+          image: isUser
+            ? generateAvatarUri({ seed: speaker, variant: "initials" })
+            : generateAvatarUri({ seed: speaker, variant: "botttsNeutral" }),
+        },
+      };
+    })
+    .filter(Boolean) as Array<{
+      speaker_id: string;
+      type: string;
+      text: string;
+      start_ts: number;
+      stop_ts: number;
+      user: { name: string; image: string };
+    }>;
+}
+
 export const meetingsRouter = createTRPCRouter({
-  // ── Stream Chat token (post-meeting chat, unchanged) ────────────────────────
+  // ── Stream Chat token ────────────────────────────────────────────────────────
   generateChatToken: protectedProcedure.mutation(async ({ ctx }) => {
     const token = streamChat.createToken(ctx.auth.user.id);
     await streamChat.upsertUser({
@@ -26,7 +59,7 @@ export const meetingsRouter = createTRPCRouter({
     return token;
   }),
 
-  // ── LiveKit access token for joining a specific room ────────────────────────
+  // ── LiveKit access token ─────────────────────────────────────────────────────
   generateToken: protectedProcedure
     .input(z.object({ roomName: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -39,7 +72,6 @@ export const meetingsRouter = createTRPCRouter({
           ttl: "2h",
         }
       );
-
       at.addGrant({
         room: input.roomName,
         roomJoin: true,
@@ -47,11 +79,10 @@ export const meetingsRouter = createTRPCRouter({
         canSubscribe: true,
         canPublishData: true,
       });
-
       return await at.toJwt();
     }),
 
-  // ── Transcript ──────────────────────────────────────────────────────────────
+  // ── Transcript ───────────────────────────────────────────────────────────────
   getTranscript: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -66,54 +97,67 @@ export const meetingsRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND", message: "Meeting not found" });
       }
 
-      if (!existingMeeting.transcriptUrl) return [];
+      const stored = existingMeeting.transcriptUrl;
+      if (!stored) return [];
 
-      const transcript = await fetch(existingMeeting.transcriptUrl)
-        .then((res) => res.text())
-        .then((text) => JSONL.parse<StreamTranscriptItem>(text))
-        .catch(() => []);
+      // Case A: Plain text transcript stored directly in the column (from agent)
+      // Lines look like "[User]: Hello" or "[AI Assistant]: Hi there"
+      if (!stored.startsWith("http")) {
+        return parsePlainTextTranscript(stored);
+      }
 
-      const speakerIds = [...new Set(transcript.map((item) => item.speaker_id))];
+      // Case B: External URL (JSONL format from LiveKit egress — legacy path)
+      try {
+        const JSONL = await import("jsonl-parse-stringify");
+        const text = await fetch(stored).then((r) => r.text());
+        const transcript = JSONL.default.parse<{
+          speaker_id: string;
+          type: string;
+          text: string;
+          start_ts: number;
+          stop_ts: number;
+        }>(text);
 
-      const userSpeakers = await db
-        .select()
-        .from(user)
-        .where(inArray(user.id, speakerIds))
-        .then((users) =>
-          users.map((u) => ({
-            ...u,
-            image: u.image ?? generateAvatarUri({ seed: u.name, variant: "initials" }),
-          }))
-        );
-
-      const agentSpeakers = await db
-        .select()
-        .from(agents)
-        .where(inArray(agents.id, speakerIds))
-        .then((rows) =>
-          rows.map((a) => ({
-            ...a,
-            image: generateAvatarUri({ seed: a.name, variant: "botttsNeutral" }),
-          }))
-        );
-
-      const speakers = [...userSpeakers, ...agentSpeakers];
-
-      return transcript.map((item) => {
-        const speaker = speakers.find((s) => s.id === item.speaker_id);
-        return {
-          ...item,
-          user: {
-            name: speaker?.name ?? "Unknown",
-            image:
-              speaker?.image ??
-              generateAvatarUri({ seed: "Unknown", variant: "initials" }),
-          },
-        };
-      });
+        const speakerIds = [...new Set(transcript.map((item) => item.speaker_id))];
+        const userSpeakers = await db
+          .select()
+          .from(user)
+          .where(inArray(user.id, speakerIds))
+          .then((users) =>
+            users.map((u) => ({
+              ...u,
+              image: u.image ?? generateAvatarUri({ seed: u.name, variant: "initials" }),
+            }))
+          );
+        const agentSpeakers = await db
+          .select()
+          .from(agents)
+          .where(inArray(agents.id, speakerIds))
+          .then((rows) =>
+            rows.map((a) => ({
+              ...a,
+              image: generateAvatarUri({ seed: a.name, variant: "botttsNeutral" }),
+            }))
+          );
+        const speakers = [...userSpeakers, ...agentSpeakers];
+        return transcript.map((item) => {
+          const speaker = speakers.find((s) => s.id === item.speaker_id);
+          return {
+            ...item,
+            user: {
+              name: speaker?.name ?? "Unknown",
+              image:
+                speaker?.image ??
+                generateAvatarUri({ seed: "Unknown", variant: "initials" }),
+            },
+          };
+        });
+      } catch {
+        return [];
+      }
     }),
 
-  // ── Dispatch Agent ──────────────────────────────────────────────────────────
+  // ── Dispatch Agent ───────────────────────────────────────────────────────────
   dispatchAgent: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
@@ -127,7 +171,7 @@ export const meetingsRouter = createTRPCRouter({
       }
     }),
 
-  // ── Remove ──────────────────────────────────────────────────────────────────
+  // ── Remove ───────────────────────────────────────────────────────────────────
   remove: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -142,17 +186,16 @@ export const meetingsRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND", message: "Meeting not found" });
       }
 
-      // Clean up LiveKit room if it exists
       try {
         await livekitRoomService.deleteRoom(input.id);
       } catch {
-        // Room may not exist yet, ignore
+        // Room may not exist yet
       }
 
       return removedMeeting;
     }),
 
-  // ── Update ──────────────────────────────────────────────────────────────────
+  // ── Update ───────────────────────────────────────────────────────────────────
   update: protectedProcedure
     .input(meetingsUpdateSchema)
     .mutation(async ({ ctx, input }) => {
@@ -171,7 +214,7 @@ export const meetingsRouter = createTRPCRouter({
       return updatedMeeting;
     }),
 
-  // ── Create ──────────────────────────────────────────────────────────────────
+  // ── Create ───────────────────────────────────────────────────────────────────
   create: premiumProcedure("meetings")
     .input(meetingsInsertSchema)
     .mutation(async ({ input, ctx }) => {
@@ -189,11 +232,9 @@ export const meetingsRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND", message: "Agent not found" });
       }
 
-      // Create LiveKit room with agent instructions in metadata
-      // The Python agent reads this metadata to know what persona to use
       await livekitRoomService.createRoom({
         name: createdMeeting.id,
-        emptyTimeout: 5 * 60,   // close after 5 min empty
+        emptyTimeout: 5 * 60,
         maxParticipants: 10,
         metadata: JSON.stringify({
           meetingId: createdMeeting.id,
@@ -207,7 +248,7 @@ export const meetingsRouter = createTRPCRouter({
       return createdMeeting;
     }),
 
-  // ── Get One ─────────────────────────────────────────────────────────────────
+  // ── Get One ──────────────────────────────────────────────────────────────────
   getOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -230,7 +271,7 @@ export const meetingsRouter = createTRPCRouter({
       return existingMeeting;
     }),
 
-  // ── Get Many ─────────────────────────────────────────────────────────────────
+  // ── Get Many ──────────────────────────────────────────────────────────────────
   getMany: protectedProcedure
     .input(
       z.object({

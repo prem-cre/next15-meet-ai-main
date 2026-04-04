@@ -1763,3 +1763,1200 @@ Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
       "debugInfo": "",
       "agentProtocol": 0
     }
+[19:41:34.146] [32mINFO[39m (37316): [36mreceived job request[39m
+    version: "1.2.3"
+    jobId: "AJ_3K3vqjzGUGgS"
+    resuming: false
+    agentName: "meetai-agent"
+[agent] LIVEKIT_URL: wss://meet-ai-h13devyj.livekit.cloud
+[agent] GOOGLE_API_KEY: EXISTS
+[agent] AGENT_SECRET: EXISTS
+[19:41:42.401] [34mDEBUG[39m (30796): [36minitializing job runner[39m
+[19:41:42.412] [34mDEBUG[39m (30796): [36mjob runner initialized[39m
+[19:41:42.424] [34mDEBUG[39m (30796): [36mjob started[39m
+    jobID: "AJ_3K3vqjzGUGgS"
+{"level":20,"time":1775311903052,"pid":30796,"hostname":"Prem","name":"lk-rtc","msg":"Connect callback received"}
+[agent] ✅ Connected to room: Pz-jS1QKgQo9hRVmZQzVr
+[agent] Persona: "AI Assistant"
+[19:41:43.058] [34mDEBUG[39m (30796): [36mConfiguring session recording (cloud tracer)[39m
+    jobId: "AJ_3K3vqjzGUGgS"
+    roomName: "Pz-jS1QKgQo9hRVmZQzVr"
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+[19:41:43.188] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity_onEnter started[39m
+[agent] ✅ Session started
+[agent] ✅ Greeting sent
+[19:41:43.083] [34mDEBUG[39m (30796): [36mconnection state changed[39m
+    state: 1
+[19:41:43.092] [34mDEBUG[39m (30796): [36mTask.runTask: task recorder_io_encode_task started[39m
+[19:41:43.096] [34mDEBUG[39m (30796): [36mAgent handoff inserted into chat context[39m
+    newAgentId: "meet_a_i_agent"
+[19:41:43.098] [34mDEBUG[39m (30796): [36msetting participant[39m
+    participantIdentity: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:41:43.099] [34mDEBUG[39m (30796): [36msetting participant audio input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:41:43.100] [32mINFO[39m (30796): [36mparticipantValue.trackPublications[39m
+    participantValue: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+    trackPublications: [
+      {
+        "info": {
+          "sid": "TR_VCZGJ2sTf5PZWK",
+          "name": "",
+          "kind": "KIND_VIDEO",
+          "source": "SOURCE_CAMERA",
+          "simulcasted": true,
+          "width": 640,
+          "height": 480,
+          "mimeType": "video/VP8",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": []
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      },
+      {
+        "info": {
+          "sid": "TR_AM2CVe8DMj9Qyj",
+          "name": "",
+          "kind": "KIND_AUDIO",
+          "source": "SOURCE_MICROPHONE",
+          "simulcasted": false,
+          "width": 0,
+          "height": 0,
+          "mimeType": "audio/red",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": [
+            "TF_AUTO_GAIN_CONTROL",
+            "TF_ECHO_CANCELLATION",
+            "TF_NOISE_SUPPRESSION"
+          ]
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      }
+    ]
+    lengthOfTrackPublications: 2
+[19:41:43.139] [34mDEBUG[39m (30796): [36mConnecting to Gemini Realtime API...[39m
+[19:41:43.197] [34mDEBUG[39m (30796): [36musing audio io: `RecorderAudioInput` -> `AgentSession` -> `RecorderAudioOutput`[39m
+[19:41:43.198] [34mDEBUG[39m (30796): [36musing transcript io: `AgentSession` -> `SyncedTextOutput`[39m
+[19:41:43.208] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_fce138d7-29b"
+[19:41:43.226] [34mDEBUG[39m (30796): [36mconnection state changed[39m
+    state: 1
+[19:41:43.228] [34mDEBUG[39m (30796): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:41:43.228] [34mDEBUG[39m (30796): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:41:43.206] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity_onEnter done[39m
+[19:41:43.209] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeReply started[39m
+[19:41:43.770] [34mDEBUG[39m (30796): [36m(server) <- {"setupComplete":{}}[39m
+[19:41:43.771] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:41:44.896] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Awaiting User Input**\n\nI am ready to assist. Since I have not yet been given a specific prompt, I'm currently standing by and awaiting your request. Let me know how I can be of service.\n\n\n","thought":true}]}}}[39m
+[19:41:44.902] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:41:44.901] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_fce138d7-29b"
+    stepIndex: 1
+[19:41:44.904] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:41:44.905] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:41:44.906] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:41:44.907] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:41:45.062] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Hello! I'm"}}}[39m
+[19:41:45.339] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" your"}}}[39m
+[19:41:45.489] [34mDEBUG[39m (30796): [36maec warmup active, disabling interruptions[39m
+    warmupDurationMs: 3000
+[19:41:45.500] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" AI"}}}[39m
+[19:41:45.502] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Assistant."}}}[39m
+[19:41:45.583] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[19:41:45.591] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:41:45.584] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:41:45.588] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:41:45.590] [34mDEBUG[39m (30796): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_fce138d7-29b"
+[19:41:45.598] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":401,"responseTokenCount":47,"totalTokenCount":448,"promptTokensDetails":[{"modality":"TEXT","tokenCount":401}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":47}],"thoughtsTokenCount":25}}[39m
+[19:41:45.597] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:41:45.597] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:41:45.612] [32mINFO[39m (30796): [36mplayout interrupted[39m
+    speech_id: "speech_fce138d7-29b"
+    playbackPositionInS: 0.117
+[19:41:45.612] [33mWARN[39m (30796): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:41:45.616] [32mINFO[39m (30796): [36mplayout completed with interrupt[39m
+    speech_id: "speech_fce138d7-29b"
+    message: "Hello! I'm your AI Assistant."
+[19:41:45.608] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:41:45.609] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:41:45.650] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeReply done[39m
+[19:41:46.658] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Hello."}}}[39m
+[19:41:46.665] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:41:46.659] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:41:46.663] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_e9aa0583-e45"
+[19:41:46.666] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_e9aa0583-e45"
+    stepIndex: 1
+[19:41:46.669] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:41:46.670] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:41:46.670] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:41:46.671] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:41:46.671] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:41:47.223] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"AI Assistant."}}}[39m
+[19:41:47.625] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" How"}}}[39m
+[19:41:47.671] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" can"}}}[39m
+[19:41:47.759] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I help"}}}[39m
+[19:41:47.846] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you today?"}}}[39m
+[19:41:48.035] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:41:48.086] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihweWpjNjZmcDA2Z3ZieDJ6ZTNicDFmMm00OTZpOWMyNjBlMmswdmdn","resumable":true}}[39m
+[19:41:48.087] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:41:48.496] [34mDEBUG[39m (30796): [36maec warmup expired, re-enabling interruptions[39m
+[19:41:50.547] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":479,"responseTokenCount":72,"totalTokenCount":551,"promptTokensDetails":[{"modality":"TEXT","tokenCount":476},{"modality":"AUDIO","tokenCount":3}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":72}]}}[39m
+[19:41:50.554] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:41:50.548] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:41:50.555] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:41:50.619] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:41:50.620] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:41:50.620] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:41:50.623] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:41:51.828] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cig2bm90NGdhYmJrZmo3eTRxdzA5eHl3dHF6dHRib2gzY3Z2YXFmb3kw","resumable":true}}[39m
+[19:41:55.912] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:41:57.206] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" कुछ एजेंट हुआ"}}}[39m
+[19:41:57.209] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:41:57.207] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:41:57.209] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_d210db8a-13f"
+[19:41:57.210] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_d210db8a-13f"
+    stepIndex: 1
+[19:41:57.214] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:41:57.215] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:41:57.215] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:41:57.216] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:41:57.216] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:41:59.075] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Clarifying My Role**\n\nI've got a new query to address. The user directly asked my identity in Hindi, which I now understand. To be crystal clear, I need to respond in English, reaffirming that I'm an AI assistant. It's important to clarify the nature of my existence given the direct inquiry.\n\n\n","thought":true}]}}}[39m
+[19:41:59.491] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"I am"}}}[39m
+[19:42:07.225] [33mWARN[39m (30796): [36maudio forwarding stalled waiting for TTS frames, forcing close[39m
+[19:42:07.231] [34mDEBUG[39m (30796): [36mfirstFrameFut cancelled before first frame[39m
+[19:42:07.231] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:42:09.509] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" a helpful"}}}[39m
+[19:42:09.684] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" AI"}}}[39m
+[19:42:09.688] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" assistant."}}}[39m
+[19:42:09.698] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" How can"}}}[39m
+[19:42:10.290] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:42:10.271] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I assist"}}}[39m
+[19:42:10.274] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you?"}}}[39m
+[19:42:10.282] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:42:10.282] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":617,"responseTokenCount":96,"totalTokenCount":713,"promptTokensDetails":[{"modality":"TEXT","tokenCount":608},{"modality":"AUDIO","tokenCount":9}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":96}],"thoughtsTokenCount":65}}[39m
+[19:42:10.282] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:42:10.343] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihjdnQybjA0ejRlMzJ6bjhnbmZiMG0yYmtsaTZwaWFrazl0MTNland1","resumable":true}}[39m
+[19:42:10.293] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:42:10.300] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:42:10.301] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:42:10.340] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:42:22.340] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:42:22.348] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:42:22.341] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" which"}}}[39m
+[19:42:22.343] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:22.347] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_ca99a50c-48a"
+[19:42:22.351] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_ca99a50c-48a"
+    stepIndex: 1
+[19:42:22.355] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" ty"}}}[39m
+[19:42:22.356] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":"pe"}}}[39m
+[19:42:22.357] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" of agent you are"}}}[39m
+[19:42:22.450] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Clarifying My Role**\n\nI'm focusing on defining my agent \"type\" based on the user's need for clarification. I am a helpful AI meeting assistant, and I need to clearly communicate this. I aim to provide specific examples of my abilities to make my purpose more tangible.\n\n\n","thought":true}]}}}[39m
+[19:42:22.451] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"I'm a"}}}[39m
+[19:42:22.451] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl text marked as ended in capture text, rotating segment[39m
+[19:42:22.491] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" versatile"}}}[39m
+[19:42:22.506] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" AI"}}}[39m
+[19:42:22.507] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" assistant,"}}}[39m
+[19:42:22.710] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" designed"}}}[39m
+[19:42:22.722] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" to help"}}}[39m
+[19:42:22.881] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" with"}}}[39m
+[19:42:23.126] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" various"}}}[39m
+[19:42:23.140] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" tasks"}}}[39m
+[19:42:23.188] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" like"}}}[39m
+[19:42:23.235] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" summarizing"}}}[39m
+[19:42:23.269] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" meetings,"}}}[39m
+[19:42:23.606] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" answering"}}}[39m
+[19:42:23.682] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" questions,"}}}[39m
+[19:42:23.802] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" and"}}}[39m
+[19:42:24.020] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" providing"}}}[39m
+[19:42:24.151] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" information."}}}[39m
+[19:42:24.155] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[19:42:24.156] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:24.160] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:42:24.284] [34mDEBUG[39m (30796): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_ca99a50c-48a"
+[19:42:24.286] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":801,"responseTokenCount":204,"totalTokenCount":1005,"promptTokensDetails":[{"modality":"TEXT","tokenCount":784},{"modality":"AUDIO","tokenCount":17}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":204}],"thoughtsTokenCount":55}}[39m
+[19:42:25.135] [32mINFO[39m (30796): [36mplayout interrupted[39m
+    speech_id: "speech_ca99a50c-48a"
+    playbackPositionInS: 0.012
+[19:42:25.135] [33mWARN[39m (30796): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:42:25.145] [32mINFO[39m (30796): [36mplayout completed with interrupt[39m
+    speech_id: "speech_ca99a50c-48a"
+    message: "I'm a versatile AI assistant, designed to help with various tasks like summarizing meetings, answering questions, and providing information."
+[19:42:22.354] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:42:22.354] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:42:22.354] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:42:22.354] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:42:22.355] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:42:24.285] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:42:24.286] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:42:24.286] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:42:25.122] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:42:25.123] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:42:25.237] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:42:30.632] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" which"}}}[39m
+[19:42:30.633] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:30.634] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_fa23c8bc-650"
+[19:42:30.635] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_fa23c8bc-650"
+    stepIndex: 1
+[19:42:30.637] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" type of agent you are"}}}[39m
+[19:42:30.639] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cih3aGg1eXE4aWs2MjV2emU4emdodWUwemQ4ZjFkZmEybW94Y2Y0dmo2","resumable":true}}[39m
+[19:42:30.639] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:42:30.640] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Clarifying My Identity**\n\nI'm focusing on the user's apparent confusion regarding my role. I believe my responses haven't been explicit enough. I will re-state that I am a helpful AI meeting assistant, as specified in my initial instructions, and provide some examples of the types of tasks I can help with. Hopefully, this will resolve the ambiguity.\n\n\n","thought":true}]}}}[39m
+[19:42:30.640] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"I am"}}}[39m
+[19:42:30.640] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" a helpful"}}}[39m
+[19:42:30.643] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" AI"}}}[39m
+[19:42:30.707] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" assistant,"}}}[39m
+[19:42:30.738] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" like"}}}[39m
+[19:42:30.768] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" for"}}}[39m
+[19:42:30.771] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" meetings"}}}[39m
+[19:42:30.774] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" or"}}}[39m
+[19:42:30.779] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" general"}}}[39m
+[19:42:30.782] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" questions."}}}[39m
+[19:42:30.785] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" What"}}}[39m
+[19:42:30.786] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" specifically"}}}[39m
+[19:42:30.791] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" are you"}}}[39m
+[19:42:30.843] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" interested"}}}[39m
+[19:42:31.070] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" in?"}}}[39m
+[19:42:31.072] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[19:42:31.073] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:31.073] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:42:31.080] [34mDEBUG[39m (30796): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_fa23c8bc-650"
+[19:42:31.082] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":935,"responseTokenCount":180,"totalTokenCount":1115,"promptTokensDetails":[{"modality":"TEXT","tokenCount":912},{"modality":"AUDIO","tokenCount":23}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":180}],"thoughtsTokenCount":64}}[39m
+[19:42:31.084] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihqZW4wMnN4OHFoYTR2Y2wzZTRoZWpzcHZ5aXhiMnVncDF4ZDNxNTY0","resumable":true}}[39m
+[19:42:31.085] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:42:32.524] [32mINFO[39m (30796): [36mplayout interrupted[39m
+    speech_id: "speech_fa23c8bc-650"
+    playbackPositionInS: 0.025
+[19:42:32.524] [33mWARN[39m (30796): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:42:32.527] [32mINFO[39m (30796): [36mplayout completed with interrupt[39m
+    speech_id: "speech_fa23c8bc-650"
+    message: "I am"
+[19:42:30.634] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:42:30.636] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:42:30.636] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:42:30.636] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:42:30.637] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:42:30.637] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:42:31.082] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:42:31.082] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:42:32.429] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:42:32.470] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:42:32.493] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:42:32.882] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:42:32.967] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" बाबा"}}}[39m
+[19:42:32.967] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:33.084] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_f064e6f3-9eb"
+[19:42:33.086] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_f064e6f3-9eb"
+    stepIndex: 1
+[19:42:33.090] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Clarifying Ambiguity**\n\nI'm currently navigating a bit of an unclear input. The user provided \"बाबा\" (Baba), which isn't immediately obvious within the current conversation about my agent type. I need to clarify the user's intent to remain helpful. I plan to gently seek clarification to understand how \"Baba\" fits into our discussion.\n\n\n","thought":true}]}}}[39m
+[19:42:33.085] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:42:33.087] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:42:33.088] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:42:33.088] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:42:33.089] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:42:33.090] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:42:34.425] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"like a"}}}[39m
+[19:42:34.425] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" meeting"}}}[39m
+[19:42:34.426] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" assistant,"}}}[39m
+[19:42:35.103] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" to help"}}}[39m
+[19:42:35.189] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" with"}}}[39m
+[19:42:35.541] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" tasks,"}}}[39m
+[19:42:38.100] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" questions,"}}}[39m
+[19:42:41.685] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" and"}}}[39m
+[19:42:42.306] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" information."}}}[39m
+[PinoCloudExporter] Failed to flush logs: TypeError: fetch failed
+    at node:internal/deps/undici/undici:16416:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async PinoCloudExporter.sendLogs (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\telemetry\pino_otel_transport.ts:210:22)
+    at async PinoCloudExporter.flush (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\telemetry\pino_otel_transport.ts:172:7) {
+  [cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 143.223.94.107:443, 143.223.94.99:443, timeout: 10000ms)
+      at onConnectTimeout (node:internal/deps/undici/undici:1946:23)
+      at Immediate._onImmediate (node:internal/deps/undici/undici:1912:35)
+      at process.processImmediate (node:internal/timers:504:21) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+[19:42:47.160] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Is"}}}[39m
+[19:42:47.174] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:42:49.266] [33mWARN[39m (37316): [36mjob executor is unresponsive[39m
+    delay: 1193
+[19:42:47.161] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" there"}}}[39m
+[19:42:47.162] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" a specific"}}}[39m
+[19:42:47.165] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" function"}}}[39m
+[19:42:47.167] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you're interested"}}}[39m
+[19:42:47.168] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" in?"}}}[39m
+[19:42:47.170] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:42:47.170] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[19:42:47.170] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:47.171] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:42:47.173] [34mDEBUG[39m (30796): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_f064e6f3-9eb"
+[19:42:47.177] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":1087,"responseTokenCount":189,"totalTokenCount":1276,"promptTokensDetails":[{"modality":"TEXT","tokenCount":1058},{"modality":"AUDIO","tokenCount":29}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":189}],"thoughtsTokenCount":50}}[39m
+[19:42:47.180] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Which"}}}[39m
+[19:42:47.184] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:47.194] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_fb365c92-e7b"
+[19:42:47.195] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_fb365c92-e7b"
+    stepIndex: 1
+[19:42:47.213] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cihxc2Qwbndzamw2aHVmbWxyeXI1N2wzM3NjdXlxbWdyeXIzZHJuYjJh","resumable":true}}[39m
+[19:42:47.214] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:42:47.216] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" ty"}}}[39m
+[19:42:47.218] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":"pe of agent you are"}}}[39m
+[19:42:47.226] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Clarifying AI Identity**\n\nI'm revisiting the persistent questioning about my \"agent\" type. I'll reiterate that I'm a helpful AI assistant, hoping to clear up any confusion. Maybe they have a specific context in mind for the word, so I'll be sure to check on that.\n\n\n","thought":true}]}}}[39m
+[19:42:47.226] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"As I"}}}[39m
+[19:42:47.229] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl text marked as ended in capture text, rotating segment[39m
+[19:42:47.229] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" mentioned,"}}}[39m
+[19:42:47.229] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I"}}}[39m
+[19:42:47.236] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" am"}}}[39m
+[19:42:47.238] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" a helpful"}}}[39m
+[19:42:47.249] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" AI"}}}[39m
+[19:42:47.270] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" assistant."}}}[39m
+[19:42:47.280] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" What"}}}[39m
+[19:42:47.299] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" specifically"}}}[39m
+[19:42:47.317] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" are you"}}}[39m
+[19:42:47.338] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" interested"}}}[39m
+[19:42:47.357] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" in knowing"}}}[39m
+[19:42:47.407] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" about"}}}[39m
+[19:42:47.435] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" my"}}}[39m
+[19:42:47.436] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" capabilities?"}}}[39m
+[19:42:49.272] [33mWARN[39m (30796): [36mrotateSegment called while previous segment is still being rotated[39m
+[19:42:50.082] [32mINFO[39m (30796): [36mplayout interrupted[39m
+    speech_id: "speech_f064e6f3-9eb"
+    playbackPositionInS: 4.240000000000003
+[19:42:50.082] [33mWARN[39m (30796): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:42:50.090] [32mINFO[39m (30796): [36mplayout completed with interrupt[39m
+    speech_id: "speech_f064e6f3-9eb"
+    message: "like"
+[19:42:47.176] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:42:47.176] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:42:47.194] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:42:47.199] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:42:47.204] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:42:47.205] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:42:47.213] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:42:47.213] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:42:48.053] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl.pushAudio called after close[39m
+[19:42:49.264] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl.endAudioInput called after close[39m
+[19:42:49.265] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:42:49.266] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl.markPlaybackFinished called after close[39m
+[19:42:50.079] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:42:50.097] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:42:50.926] [33mWARN[39m (30796): [36mSegmentSynchronizerImpl.pushText called after close[39m
+[19:42:52.453] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:42:52.453] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":1336,"responseTokenCount":191,"totalTokenCount":1527,"promptTokensDetails":[{"modality":"TEXT","tokenCount":1294},{"modality":"AUDIO","tokenCount":42}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":191}],"thoughtsTokenCount":56}}[39m
+[19:42:52.453] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:42:52.505] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihnaXN4OXZwbnd5a283Nmx1Z2Vwejc0MnE0ZDBldTR0aHpkejdzNTZm","resumable":true}}[39m
+[19:42:52.501] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:42:52.504] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:42:52.504] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:42:56.523] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:42:57.654] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:42:57.664] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Should I speak?"}}}[39m
+[19:42:57.656] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:42:57.668] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:42:57.675] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:42:57.675] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:42:57.675] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions started[39m
+[19:42:58.354] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding started[39m
+[19:42:58.354] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding started[39m
+[19:42:58.366] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:42:57.667] [32mINFO[39m (30796): [36monInputSpeechStarted[39m
+[19:42:57.668] [32mINFO[39m (30796): [36mCreating speech handle[39m
+    speech_id: "speech_7b89af66-ed9"
+[19:42:57.670] [34mDEBUG[39m (30796): [36mrealtime generation started[39m
+    speech_id: "speech_7b89af66-ed9"
+    stepIndex: 1
+[19:42:57.674] [34mDEBUG[39m (30796): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_fb365c92-e7b"
+[19:42:57.678] [32mINFO[39m (30796): [36mplayout interrupted[39m
+    speech_id: "speech_fb365c92-e7b"
+    playbackPositionInS: 5.545
+[19:42:57.678] [33mWARN[39m (30796): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:42:57.736] [32mINFO[39m (30796): [36mplayout completed with interrupt[39m
+    speech_id: "speech_fb365c92-e7b"
+    message: " mentioned, I am a helpful AI assistant. What specifically are you"
+[19:42:58.982] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Confirming User's Ability**\n\nI've determined the user is directly asking about continuing the dialogue. My next step is to confirm the user's readiness to speak and invite them to share their intended topic for discussion.\n\n\n","thought":true}]}}}[39m
+[19:42:58.982] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Yes, you"}}}[39m
+[19:42:59.369] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" can"}}}[39m
+[19:42:59.711] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" speak"}}}[39m
+[19:42:59.918] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" or"}}}[39m
+[19:42:59.942] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" type"}}}[39m
+[19:43:00.048] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" whatever"}}}[39m
+[19:43:00.051] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you'd"}}}[39m
+[19:43:00.053] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" like!"}}}[39m
+[19:43:00.064] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" What's"}}}[39m
+[19:43:00.228] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" on your"}}}[39m
+[19:43:00.236] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" mind?"}}}[39m
+[19:43:00.243] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:43:03.328] [34mDEBUG[39m (30796): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":1617,"responseTokenCount":110,"totalTokenCount":1727,"promptTokensDetails":[{"modality":"TEXT","tokenCount":1559},{"modality":"AUDIO","tokenCount":58}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":110}],"thoughtsTokenCount":37}}[39m
+[19:43:03.332] [34mDEBUG[39m (30796): [36mTask.runTask: task performTextForwarding done[39m
+[19:43:03.328] [32mINFO[39m (30796): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:43:03.333] [34mDEBUG[39m (30796): [36mTask.runTask: task performAudioForwarding done[39m
+[19:43:03.333] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:43:03.334] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:43:03.334] [34mDEBUG[39m (30796): [36mTask.runTask: task performToolExecutions done[39m
+[19:43:04.117] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:43:05.100] [34mDEBUG[39m (30796): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihwdTN6cjUwYW50MXB1dWg3dTFrZWlqbXdjYTloM2l6czh3aHJrcWZh","resumable":true}}[39m
+[19:43:11.752] [34mDEBUG[39m (30796): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:43:11.767] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity_onExit started[39m
+[19:43:11.763] [32mINFO[39m (30796): [36mclosing agent session due to participant disconnect (disable via `RoomInputOptions.closeOnDisconnect=False`)[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+    reason: "CLIENT_INITIATED"
+[19:43:11.769] [32mINFO[39m (30796): [36mmainTask: scheduling paused and no more speech tasks to wait[39m
+[19:43:11.770] [32mINFO[39m (30796): [36mAgentActivity mainTask: exiting[39m
+[19:43:11.769] [34mDEBUG[39m (30796): [36mTask.runTask: task AgentActivity_onExit done[39m
+[19:43:11.787] [34mDEBUG[39m (30796): [36mFFmpeg encoding finished[39m
+[19:43:11.793] [34mDEBUG[39m (30796): [36mUser turn commit task cancelled[39m
+[19:43:11.788] [34mDEBUG[39m (30796): [36mTask.runTask: task recorder_io_encode_task done[39m
+[19:43:11.793] [32mINFO[39m (30796): [36mAgentSession closed[39m
+    reason: "participant_disconnected"
+    error: null
+[19:43:11.866] [34mDEBUG[39m (30796): [36mGemini Live session closed:[39m
+[19:43:34.008] [34mDEBUG[39m (30796): [36mshutting down[39m
+    jobID: "AJ_3K3vqjzGUGgS"
+[19:43:34.008] [34mDEBUG[39m (37316): [36mjob exiting[39m
+[agent] Room "Pz-jS1QKgQo9hRVmZQzVr" closed. Transcript lines: 0
+[19:43:34.481] [31mERROR[39m (30796): [36mFailed to upload session report[39m
+    jobId: "AJ_3K3vqjzGUGgS"
+    roomName: "Pz-jS1QKgQo9hRVmZQzVr"
+    error: {
+      "type": "Error",
+      "message": "Failed to upload session report: 500 Internal Server Error - \b\r\u0012\u001dunable to find storage region\u001a.\n(type.googleapis.com/google.rpc.RetryInfo\u0012\u0002\n\u0000",
+      "stack":
+          Error: Failed to upload session report: 500 Internal Server Error - unable to find storage region.
+          (type.googleapis.com/google.rpc.RetryInfo
+           
+              at IncomingMessage.<anonymous> (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\telemetry\traces.ts:659:15)
+              at IncomingMessage.emit (node:events:520:35)
+              at endReadableNT (node:internal/streams/readable:1701:12)
+              at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+    }
+[19:43:34.500] [34mDEBUG[39m (30796): [36mSession ended, report generated[39m
+    jobId: "AJ_3K3vqjzGUGgS"
+    roomName: "Pz-jS1QKgQo9hRVmZQzVr"
+    roomId: "RM_JaKXzumBBcdU"
+    eventsCount: 81
+[19:43:34.500] [34mDEBUG[39m (30796): [36mdisconnected from room[39m
+    jobID: "AJ_3K3vqjzGUGgS"
+[19:43:34.505] [34mDEBUG[39m (30796): [36mnative resources disposed[39m
+    jobID: "AJ_3K3vqjzGUGgS"
+[19:43:34.505] [34mDEBUG[39m (30796): [36mJob process shutdown[39m
+    jobID: "AJ_3K3vqjzGUGgS"
+[19:57:18.935] [32mINFO[39m (37316): [36mreceived job request[39m
+    version: "1.2.3"
+    jobId: "AJ_J6pVBKJYZAoa"
+    resuming: false
+    agentName: "meetai-agent"
+[19:57:29.262] [33mWARN[39m (37316): [36msupervised process run failed[39m
+    err: {
+      "type": "Error",
+      "message": "runner initialization timed out",
+      "stack":
+          Error: runner initialization timed out
+              at Timeout._onTimeout (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\ipc\supervised_proc.ts:183:24)
+              at listOnTimeout (node:internal/timers:605:17)
+              at process.processTimers (node:internal/timers:541:7)
+    }
+[agent] LIVEKIT_URL: wss://meet-ai-h13devyj.livekit.cloud
+[agent] GOOGLE_API_KEY: EXISTS
+[agent] AGENT_SECRET: EXISTS
+[19:57:45.359] [34mDEBUG[39m (14212): [36minitializing job runner[39m
+[19:57:45.491] [34mDEBUG[39m (14212): [36mjob runner initialized[39m
+[19:57:45.741] [34mDEBUG[39m (14212): [36mjob started[39m
+    jobID: "AJ_J6pVBKJYZAoa"
+{"level":20,"time":1775312867560,"pid":14212,"hostname":"Prem","name":"lk-rtc","msg":"Connect callback received"}
+[agent] ✅ Connected to room: 4gCVfN7FW2ozhKTSjZeoZ
+[agent] Persona: "Math Tutor"
+[19:57:47.567] [34mDEBUG[39m (14212): [36mConfiguring session recording (cloud tracer)[39m
+    jobId: "AJ_J6pVBKJYZAoa"
+    roomName: "4gCVfN7FW2ozhKTSjZeoZ"
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+[19:57:48.248] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity_onEnter started[39m
+[agent] ✅ Session started
+[agent] ✅ Greeting sent
+[19:57:47.855] [34mDEBUG[39m (14212): [36mconnection state changed[39m
+    state: 1
+[19:57:47.865] [34mDEBUG[39m (14212): [36mTask.runTask: task recorder_io_encode_task started[39m
+[19:57:47.868] [34mDEBUG[39m (14212): [36mAgent handoff inserted into chat context[39m
+    newAgentId: "meet_a_i_agent"
+[19:57:47.870] [34mDEBUG[39m (14212): [36msetting participant[39m
+    participantIdentity: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:57:47.871] [34mDEBUG[39m (14212): [36msetting participant audio input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:57:47.872] [32mINFO[39m (14212): [36mparticipantValue.trackPublications[39m
+    participantValue: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+    trackPublications: [
+      {
+        "info": {
+          "sid": "TR_VC7fPLayUNQ9Md",
+          "name": "",
+          "kind": "KIND_VIDEO",
+          "source": "SOURCE_CAMERA",
+          "simulcasted": true,
+          "width": 1280,
+          "height": 720,
+          "mimeType": "video/VP8",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": []
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      },
+      {
+        "info": {
+          "sid": "TR_AMG9QHNyA5q4tD",
+          "name": "",
+          "kind": "KIND_AUDIO",
+          "source": "SOURCE_MICROPHONE",
+          "simulcasted": false,
+          "width": 0,
+          "height": 0,
+          "mimeType": "audio/red",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": [
+            "TF_AUTO_GAIN_CONTROL",
+            "TF_ECHO_CANCELLATION",
+            "TF_NOISE_SUPPRESSION"
+          ]
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      }
+    ]
+    lengthOfTrackPublications: 2
+[19:57:48.084] [34mDEBUG[39m (14212): [36mConnecting to Gemini Realtime API...[39m
+[19:57:48.265] [34mDEBUG[39m (14212): [36musing audio io: `RecorderAudioInput` -> `AgentSession` -> `RecorderAudioOutput`[39m
+[19:57:48.266] [34mDEBUG[39m (14212): [36musing transcript io: `AgentSession` -> `SyncedTextOutput`[39m
+[19:57:48.336] [32mINFO[39m (14212): [36mCreating speech handle[39m
+    speech_id: "speech_e6b6a425-8ed"
+[19:57:48.354] [34mDEBUG[39m (14212): [36mconnection state changed[39m
+    state: 1
+[19:57:48.355] [34mDEBUG[39m (14212): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:57:48.356] [34mDEBUG[39m (14212): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[19:57:48.332] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity_onEnter done[39m
+[19:57:48.336] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtimeReply started[39m
+[19:57:49.058] [34mDEBUG[39m (14212): [36m(server) <- {"setupComplete":{}}[39m
+[19:57:49.059] [34mDEBUG[39m (14212): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:57:50.555] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Offering Assistance**\n\nHello! I recognize there's no specific question yet, but I'm ready to help with any mathematical inquiries you have. Whether it's a specific problem, concept clarification, or general exploration of mathematical topics, please feel free to ask. I look forward to working with you!\n\n\n","thought":true}]}}}[39m
+[19:57:50.561] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:57:50.560] [34mDEBUG[39m (14212): [36mrealtime generation started[39m
+    speech_id: "speech_e6b6a425-8ed"
+    stepIndex: 1
+[19:57:50.562] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:57:50.563] [34mDEBUG[39m (14212): [36mTask.runTask: task performToolExecutions started[39m
+[19:57:50.565] [34mDEBUG[39m (14212): [36mTask.runTask: task performTextForwarding started[39m
+[19:57:50.566] [34mDEBUG[39m (14212): [36mTask.runTask: task performAudioForwarding started[39m
+[19:57:50.778] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Hello! I'm"}}}[39m
+[19:57:51.301] [34mDEBUG[39m (14212): [36maec warmup active, disabling interruptions[39m
+    warmupDurationMs: 3000
+[19:57:51.305] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" your"}}}[39m
+[19:57:51.318] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Math"}}}[39m
+[19:57:51.349] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Tutor."}}}[39m
+[19:57:51.640] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" How can"}}}[39m
+[19:57:51.745] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I help"}}}[39m
+[19:57:51.819] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you with"}}}[39m
+[19:57:51.860] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" math"}}}[39m
+[19:57:52.041] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" today?"}}}[39m
+[19:57:52.094] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:57:52.105] [34mDEBUG[39m (14212): [36mTask.runTask: task performTextForwarding done[39m
+[19:57:52.095] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[19:57:52.096] [32mINFO[39m (14212): [36monInputSpeechStarted[39m
+[19:57:52.100] [32mINFO[39m (14212): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:57:52.104] [34mDEBUG[39m (14212): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_e6b6a425-8ed"
+[19:57:52.107] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":387,"responseTokenCount":98,"totalTokenCount":485,"promptTokensDetails":[{"modality":"TEXT","tokenCount":387}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":98}],"thoughtsTokenCount":41}}[39m
+[19:57:52.139] [32mINFO[39m (14212): [36mplayout interrupted[39m
+    speech_id: "speech_e6b6a425-8ed"
+    playbackPositionInS: 0.83
+[19:57:52.140] [33mWARN[39m (14212): [36mtruncate is not supported by the Google Realtime API.[39m
+[19:57:52.143] [32mINFO[39m (14212): [36mplayout completed with interrupt[39m
+    speech_id: "speech_e6b6a425-8ed"
+    message: "Hello!"
+[19:57:52.107] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:57:52.107] [34mDEBUG[39m (14212): [36mTask.runTask: task performToolExecutions done[39m
+[19:57:52.136] [34mDEBUG[39m (14212): [36mTask.runTask: task performAudioForwarding done[39m
+[19:57:52.136] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:57:52.164] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtimeReply done[39m
+[19:57:52.908] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Hello."}}}[39m
+[19:57:52.911] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[19:57:52.909] [32mINFO[39m (14212): [36monInputSpeechStarted[39m
+[19:57:52.910] [32mINFO[39m (14212): [36mCreating speech handle[39m
+    speech_id: "speech_1ce49002-6ed"
+[19:57:52.912] [34mDEBUG[39m (14212): [36mrealtime generation started[39m
+    speech_id: "speech_1ce49002-6ed"
+    stepIndex: 1
+[19:57:52.917] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[19:57:52.918] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[19:57:52.918] [34mDEBUG[39m (14212): [36mTask.runTask: task performToolExecutions started[39m
+[19:57:52.919] [34mDEBUG[39m (14212): [36mTask.runTask: task performTextForwarding started[39m
+[19:57:52.919] [34mDEBUG[39m (14212): [36mTask.runTask: task performAudioForwarding started[39m
+[19:57:53.799] [34mDEBUG[39m (14212): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihpZTMxeXBubnBka2tsaDhnbjV6NHEwdnQyeXRvZWxwd3RpZHdvYXlp","resumable":true}}[39m
+[19:57:53.800] [34mDEBUG[39m (14212): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[19:57:54.304] [34mDEBUG[39m (14212): [36maec warmup expired, re-enabling interruptions[39m
+[19:57:54.435] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Acknowledge and Engage**\n\nI've crafted a response to the user's \"Hello,\" adopting the persona of a helpful math tutor. My aim is to warmly acknowledge their greeting, and then invite them to share their math question or indicate the area where they need some assistance.\n\n\n","thought":true}]}}}[39m
+[19:57:54.624] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Hello! I'm"}}}[39m
+[19:57:54.945] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" your"}}}[39m
+[19:57:55.114] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Math"}}}[39m
+[19:57:55.138] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Tutor."}}}[39m
+[19:57:55.204] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" How can"}}}[39m
+[19:57:55.483] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I help"}}}[39m
+[19:57:55.732] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you today?"}}}[39m
+[19:57:56.033] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[19:57:58.351] [34mDEBUG[39m (14212): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":459,"responseTokenCount":91,"totalTokenCount":550,"promptTokensDetails":[{"modality":"TEXT","tokenCount":457},{"modality":"AUDIO","tokenCount":2}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":91}],"thoughtsTokenCount":46}}[39m
+[19:57:58.358] [34mDEBUG[39m (14212): [36mTask.runTask: task performTextForwarding done[39m
+[19:57:58.352] [32mINFO[39m (14212): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[19:57:58.359] [34mDEBUG[39m (14212): [36mTask.runTask: task performAudioForwarding done[39m
+[19:57:58.360] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[19:57:58.360] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[19:57:58.360] [34mDEBUG[39m (14212): [36mTask.runTask: task performToolExecutions done[39m
+[19:57:58.592] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[19:58:00.528] [33mWARN[39m (14212): [36mjob process orphaned, shutting down.[39m
+    jobID: "AJ_J6pVBKJYZAoa"
+[19:58:00.686] [34mDEBUG[39m (14212): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihpMWs0ZWF4bXhvdjhwc3pud2thMDY2d2NoZDliYnRsdzh0MGd0cDQ1","resumable":true}}[39m
+[19:58:00.860] [34mDEBUG[39m (14212): [36mshutting down[39m
+    jobID: "AJ_J6pVBKJYZAoa"
+[19:58:00.862] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity_onExit started[39m
+[19:58:00.863] [32mINFO[39m (14212): [36mmainTask: scheduling paused and no more speech tasks to wait[39m
+[19:58:00.864] [32mINFO[39m (14212): [36mAgentActivity mainTask: exiting[39m
+[19:58:00.863] [34mDEBUG[39m (14212): [36mTask.runTask: task AgentActivity_onExit done[39m
+[19:58:00.880] [34mDEBUG[39m (14212): [36mnative resources disposed[39m
+    jobID: "AJ_J6pVBKJYZAoa"
+[19:58:00.881] [34mDEBUG[39m (14212): [36mJob process shutdown[39m
+    jobID: "AJ_J6pVBKJYZAoa"
+[20:15:17.921] [32mINFO[39m (37316): [36mreceived job request[39m
+    version: "1.2.3"
+    jobId: "AJ_KVW9ehfQNziE"
+    resuming: false
+    agentName: "meetai-agent"
+[agent] LIVEKIT_URL: wss://meet-ai-h13devyj.livekit.cloud
+[agent] GOOGLE_API_KEY: EXISTS
+[agent] AGENT_SECRET: EXISTS
+[20:15:25.035] [34mDEBUG[39m (24560): [36minitializing job runner[39m
+[20:15:25.053] [34mDEBUG[39m (24560): [36mjob runner initialized[39m
+[20:15:25.063] [34mDEBUG[39m (24560): [36mjob started[39m
+    jobID: "AJ_KVW9ehfQNziE"
+[20:15:35.071] [33mWARN[39m (24560): [36mroom not connect after job_entry was called after 10 seconds, [39m
+    jobID: "AJ_KVW9ehfQNziE"
+{"level":20,"time":1775313941550,"pid":24560,"hostname":"Prem","name":"lk-rtc","msg":"Connect callback received"}
+[agent] ✅ Connected to room: Oo87xEEO1-ICiEi5mhTjf
+[agent] Persona: "Math Tutor"
+[20:15:41.556] [34mDEBUG[39m (24560): [36mConfiguring session recording (cloud tracer)[39m
+    jobId: "AJ_KVW9ehfQNziE"
+    roomName: "Oo87xEEO1-ICiEi5mhTjf"
+Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.
+[20:15:41.714] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity_onEnter started[39m
+[agent] ✅ Session started
+[agent] ✅ Greeting sent
+[20:15:41.584] [34mDEBUG[39m (24560): [36mconnection state changed[39m
+    state: 1
+[20:15:41.593] [34mDEBUG[39m (24560): [36mTask.runTask: task recorder_io_encode_task started[39m
+[20:15:41.598] [34mDEBUG[39m (24560): [36mAgent handoff inserted into chat context[39m
+    newAgentId: "meet_a_i_agent"
+[20:15:41.600] [34mDEBUG[39m (24560): [36msetting participant[39m
+    participantIdentity: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[20:15:41.601] [34mDEBUG[39m (24560): [36msetting participant audio input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[20:15:41.602] [32mINFO[39m (24560): [36mparticipantValue.trackPublications[39m
+    participantValue: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+    trackPublications: [
+      {
+        "info": {
+          "sid": "TR_VC659CLmZAQNKH",
+          "name": "",
+          "kind": "KIND_VIDEO",
+          "source": "SOURCE_CAMERA",
+          "simulcasted": true,
+          "width": 640,
+          "height": 480,
+          "mimeType": "video/VP8",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": []
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      },
+      {
+        "info": {
+          "sid": "TR_AMVNrDdC9YKLwF",
+          "name": "",
+          "kind": "KIND_AUDIO",
+          "source": "SOURCE_MICROPHONE",
+          "simulcasted": false,
+          "width": 0,
+          "height": 0,
+          "mimeType": "audio/red",
+          "muted": false,
+          "remote": true,
+          "encryptionType": "NONE",
+          "audioFeatures": [
+            "TF_AUTO_GAIN_CONTROL",
+            "TF_ECHO_CANCELLATION",
+            "TF_NOISE_SUPPRESSION"
+          ]
+        },
+        "ffiHandle": {},
+        "subscribed": false
+      }
+    ]
+    lengthOfTrackPublications: 2
+[20:15:41.641] [34mDEBUG[39m (24560): [36mConnecting to Gemini Realtime API...[39m
+[20:15:41.724] [34mDEBUG[39m (24560): [36musing audio io: `RecorderAudioInput` -> `AgentSession` -> `RecorderAudioOutput`[39m
+[20:15:41.725] [34mDEBUG[39m (24560): [36musing transcript io: `AgentSession` -> `SyncedTextOutput`[39m
+[20:15:41.736] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_7231cbc6-cad"
+[20:15:41.754] [34mDEBUG[39m (24560): [36mconnection state changed[39m
+    state: 1
+[20:15:41.755] [34mDEBUG[39m (24560): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[20:15:41.755] [34mDEBUG[39m (24560): [36monTrackSubscribed in _input[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+[20:15:41.734] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity_onEnter done[39m
+[20:15:41.736] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeReply started[39m
+[20:15:42.116] [34mDEBUG[39m (24560): [36m(server) <- {"setupComplete":{}}[39m
+[20:15:42.117] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:15:44.031] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Initiating A Response**\n\nI've registered the user's brief message and am responding as instructed. While the input is minimal, I'm interpreting the period as a conversation starter. I'm providing a friendly greeting and offering assistance. My goal is to be helpful, even with limited information. I'm following the established guidelines for interaction, even in the event of an otherwise empty input.\n\n\n","thought":true}]}}}[39m
+[20:15:44.037] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:15:44.036] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_7231cbc6-cad"
+    stepIndex: 1
+[20:15:44.038] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:15:44.039] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:15:44.040] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:15:44.041] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:15:44.431] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Hello! I'm"}}}[39m
+[20:15:44.437] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[20:15:44.448] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:15:44.437] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:15:44.441] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:15:44.445] [34mDEBUG[39m (24560): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_7231cbc6-cad"
+[20:15:44.449] [34mDEBUG[39m (24560): [36mfirstFrameFut cancelled before first frame[39m
+[20:15:44.451] [33mWARN[39m (24560): [36mtruncate is not supported by the Google Realtime API.[39m
+[20:15:44.452] [32mINFO[39m (24560): [36mplayout completed with interrupt[39m
+    speech_id: "speech_7231cbc6-cad"
+    message: ""
+[20:15:44.454] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":387,"responseTokenCount":1,"totalTokenCount":388,"promptTokensDetails":[{"modality":"TEXT","tokenCount":387}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":1}],"thoughtsTokenCount":68}}[39m
+[20:15:44.450] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:15:44.450] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:15:44.450] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:15:44.451] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:15:44.453] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeReply done[39m
+[20:15:45.845] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Hello."}}}[39m
+[20:15:45.849] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[20:15:45.847] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:15:45.848] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_9f32a55a-82d"
+[20:15:45.850] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_9f32a55a-82d"
+    stepIndex: 1
+[20:15:45.857] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:15:45.858] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:15:45.858] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:15:45.859] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:15:45.859] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:15:46.933] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cig0MTU5OWJleGxub205bDRiamk0eG1jc2U3ZDRhZTNubGQ3bmtyenM4","resumable":true}}[39m
+[20:15:46.934] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:15:47.066] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Initiating Interaction Protocol**\n\nI've registered the user's \"Hello\" and am now proceeding with a standard Math Tutor greeting. I'm following instructions to introduce myself formally and offer assistance in a helpful and approachable manner. I'll maintain a professional demeanor while aiming to create a welcoming environment for learning.\n\n\n","thought":true}]}}}[39m
+[20:15:47.289] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"Math Tutor."}}}[39m
+[20:15:47.289] [33mWARN[39m (24560): [36mSegmentSynchronizerImpl text marked as ended in capture text, rotating segment[39m
+[20:15:47.549] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I'm"}}}[39m
+[20:15:47.688] [34mDEBUG[39m (24560): [36maec warmup active, disabling interruptions[39m
+    warmupDurationMs: 3000
+[20:15:47.699] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" here"}}}[39m
+[20:15:47.775] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" to help"}}}[39m
+[20:15:47.851] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" with any"}}}[39m
+[20:15:47.948] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" math"}}}[39m
+[20:15:47.999] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" questions"}}}[39m
+[20:15:48.090] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you have."}}}[39m
+[20:15:48.228] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" What can"}}}[39m
+[20:15:48.366] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" I help"}}}[39m
+[20:15:48.427] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" you with"}}}[39m
+[20:15:48.511] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" today?"}}}[39m
+[20:15:49.540] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[20:15:50.690] [34mDEBUG[39m (24560): [36maec warmup expired, re-enabling interruptions[39m
+[20:15:52.531] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":437,"responseTokenCount":128,"totalTokenCount":565,"promptTokensDetails":[{"modality":"TEXT","tokenCount":436},{"modality":"AUDIO","tokenCount":1}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":128}],"thoughtsTokenCount":31}}[39m
+[20:15:52.565] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:15:52.532] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:15:52.567] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:15:52.567] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:15:52.568] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:15:52.568] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:15:52.699] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[20:15:54.714] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CigweXNhOWx4NGpnZXNnOHFud3d1bDJxM3R1MjAycDdlem13ZXk5YzEx","resumable":true}}[39m
+[20:15:55.489] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:15:56.410] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" What is your name?"}}}[39m
+[20:15:56.413] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[20:15:56.410] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:15:56.413] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_76b10d78-94f"
+[20:15:56.414] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_76b10d78-94f"
+    stepIndex: 1
+[20:15:56.417] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:15:56.418] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:15:56.418] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:15:56.419] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:15:56.419] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:15:57.881] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Reiterating My Identity**\n\nI'm getting straight to the point. The user wants to know my name, a question that's already been addressed. Therefore, I must reiterate my name as \"Math Tutor\" clearly and concisely, directly answering the user's current query. I am now providing this direct response.\n\n\n","thought":true}]}}}[39m
+[20:15:58.109] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"You can"}}}[39m
+[20:15:58.236] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" call"}}}[39m
+[20:15:58.291] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" me Math"}}}[39m
+[20:15:58.518] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" Tutor."}}}[39m
+[20:15:58.551] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[20:15:59.968] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":651,"responseTokenCount":41,"totalTokenCount":692,"promptTokensDetails":[{"modality":"TEXT","tokenCount":637},{"modality":"AUDIO","tokenCount":14}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":41}],"thoughtsTokenCount":40}}[39m
+[20:15:59.971] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:15:59.968] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:15:59.972] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:15:59.973] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:15:59.973] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:15:59.973] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:16:00.116] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[20:16:01.470] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihlZTZjdng5eGJwcGk4a2wwcnozYWl6ejM2b2NhcXFiNWt4d3ppbndm","resumable":true}}[39m
+[20:16:05.823] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:16:08.210] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" Okay so"}}}[39m
+[20:16:08.213] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[20:16:08.211] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:16:08.212] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_153a180a-53f"
+[20:16:08.214] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_153a180a-53f"
+    stepIndex: 1
+[20:16:08.216] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:16:08.217] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:16:08.217] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:16:08.217] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:16:08.217] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:16:09.719] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Prompting The Expert**\n\nI've registered the user's readiness, acknowledging my own name is sufficient for now. I'm keen to elicit their specific needs. It's time to ask them directly what I can help them with, so the conversation moves on smoothly.\n\n\n","thought":true}]}}}[39m
+[20:16:09.922] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"So, what's"}}}[39m
+[20:16:10.178] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" your"}}}[39m
+[20:16:10.280] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" math"}}}[39m
+[20:16:10.487] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[20:16:10.507] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:16:10.488] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:16:10.488] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:16:10.507] [34mDEBUG[39m (24560): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_153a180a-53f"
+[20:16:10.514] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":776,"responseTokenCount":30,"totalTokenCount":806,"promptTokensDetails":[{"modality":"TEXT","tokenCount":757},{"modality":"AUDIO","tokenCount":19}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":30}],"thoughtsTokenCount":30}}[39m
+[20:16:10.531] [32mINFO[39m (24560): [36mplayout interrupted[39m
+    speech_id: "speech_153a180a-53f"
+    playbackPositionInS: 0.245
+[20:16:10.531] [33mWARN[39m (24560): [36mtruncate is not supported by the Google Realtime API.[39m
+[20:16:10.537] [32mINFO[39m (24560): [36mplayout completed with interrupt[39m
+    speech_id: "speech_153a180a-53f"
+    message: "So, what's your math"
+[20:16:10.508] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:16:10.513] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:16:10.524] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:16:10.524] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:16:10.575] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[20:16:12.022] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"CihidWhyc3lodXUycDRpamV5cGs2bTVidDR2NDFycms5cTg3cmw1bXQ2","resumable":true}}[39m
+[20:16:12.022] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:16:12.386] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" What is sin theta?"}}}[39m
+[20:16:12.495] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[20:16:12.491] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:16:12.495] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_deecac98-77f"
+[20:16:12.498] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_deecac98-77f"
+    stepIndex: 1
+[20:16:12.501] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:16:12.504] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:16:12.504] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:16:12.507] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:16:12.507] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:16:13.991] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Defining Sine Theta**\n\nI'm currently focused on defining \"sin theta\". My main point is to establish sine within a right-angled triangle, highlighting \"sin\" as the symbol. I want to emphasize its fundamental connection to the angle, theta.\n\n\n","thought":true}]}}}[39m
+[20:16:14.136] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:16:14.054] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"interrupted":true}}[39m
+[20:16:14.054] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:16:14.055] [34mDEBUG[39m (24560): [36mAborting all realtime generation tasks due to interruption[39m
+    speech_id: "speech_deecac98-77f"
+[20:16:14.067] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":872,"totalTokenCount":872,"promptTokensDetails":[{"modality":"TEXT","tokenCount":850},{"modality":"AUDIO","tokenCount":22}]}}[39m
+[20:16:14.068] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:16:14.165] [34mDEBUG[39m (24560): [36mfirstFrameFut cancelled before first frame[39m
+[20:16:14.187] [33mWARN[39m (24560): [36mtruncate is not supported by the Google Realtime API.[39m
+[20:16:14.187] [32mINFO[39m (24560): [36mplayout completed with interrupt[39m
+    speech_id: "speech_deecac98-77f"
+    message: ""
+[20:16:14.165] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:16:14.186] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:16:14.187] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:16:14.187] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:16:14.188] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[20:16:15.141] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"inputTranscription":{"text":" of 30 degrees."}}}[39m
+[20:16:15.144] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration started[39m
+[20:16:15.142] [32mINFO[39m (24560): [36monInputSpeechStarted[39m
+[20:16:15.143] [32mINFO[39m (24560): [36mCreating speech handle[39m
+    speech_id: "speech_1b1bb21e-7b9"
+[20:16:15.145] [34mDEBUG[39m (24560): [36mrealtime generation started[39m
+    speech_id: "speech_1b1bb21e-7b9"
+    stepIndex: 1
+[20:16:15.204] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages started[39m
+[20:16:15.255] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream started[39m
+[20:16:15.255] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions started[39m
+[20:16:15.256] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding started[39m
+[20:16:15.274] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding started[39m
+[20:16:24.329] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cih2aWw3dTIxaG53aWxmd3I0aTY3eGQzaDFib2JwNmF5ajE2czQ2aGtw","resumable":true}}[39m
+[20:16:24.781] [34mDEBUG[39m (24560): [36mTask.runTask: task performTextForwarding done[39m
+[20:16:24.330] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{}}[39m
+[20:16:24.330] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"modelTurn":{"parts":[{"text":"**Calculating Sine Function**\n\nI've determined the user is seeking the value of sin(30 degrees). My analysis indicates this is a basic trigonometric inquiry. Thus, I'll promptly provide the exact value, avoiding any approximations.\n\n\n","thought":true}]}}}[39m
+[20:16:24.330] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":"The value"}}}[39m
+[20:16:24.333] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" of"}}}[39m
+[20:16:24.334] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" sin(30"}}}[39m
+[20:16:24.456] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" degrees)"}}}[39m
+[20:16:24.481] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" is"}}}[39m
+[20:16:24.572] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" 1/2"}}}[39m
+[20:16:24.592] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" or"}}}[39m
+[20:16:24.600] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"outputTranscription":{"text":" 0.5."}}}[39m
+[20:16:24.738] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"generationComplete":true}}[39m
+[20:16:24.739] [34mDEBUG[39m (24560): [36m(server) <- {"serverContent":{"turnComplete":true},"usageMetadata":{"promptTokenCount":906,"responseTokenCount":139,"totalTokenCount":1045,"promptTokensDetails":[{"modality":"TEXT","tokenCount":884},{"modality":"AUDIO","tokenCount":22}],"responseTokensDetails":[{"modality":"AUDIO","tokenCount":139}],"thoughtsTokenCount":32}}[39m
+[20:16:24.740] [32mINFO[39m (24560): [36monInputSpeechStopped[39m
+    userTranscriptionEnabled: false
+[20:16:24.902] [34mDEBUG[39m (24560): [36m(server) <- {"sessionResumptionUpdate":{"newHandle":"Cig1b3VtNDB4dm01cG56am1neDNrN3h1bnNjZGVhOGEzaXd3dWhkczBo","resumable":true}}[39m
+[20:16:24.901] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_tool_stream done[39m
+[20:16:24.902] [34mDEBUG[39m (24560): [36mTask.runTask: task performToolExecutions done[39m
+[20:16:35.930] [34mDEBUG[39m (24560): [36mTask.runTask: task performAudioForwarding done[39m
+[20:16:37.571] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtime_generation.read_messages done[39m
+[20:16:37.581] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity.realtimeGeneration done[39m
+[20:16:53.188] [34mDEBUG[39m (24560): [36mUser away timeout triggered[39m
+[20:16:59.126] [32mINFO[39m (24560): [36mclosing agent session due to participant disconnect (disable via `RoomInputOptions.closeOnDisconnect=False`)[39m
+    participant: "vOggQ9Rh2dVwvn6UX3HJ7MRXhXsk7kXc"
+    reason: "CLIENT_INITIATED"
+[agent] 👋 All humans left. Disconnecting to generate summary...
+[20:16:59.132] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity_onExit started[39m
+[20:16:59.137] [32mINFO[39m (24560): [36mmainTask: scheduling paused and no more speech tasks to wait[39m
+[20:16:59.137] [32mINFO[39m (24560): [36mAgentActivity mainTask: exiting[39m
+[20:16:59.137] [34mDEBUG[39m (24560): [36mTask.runTask: task AgentActivity_onExit done[39m
+[20:16:59.215] [34mDEBUG[39m (24560): [36mshutting down[39m
+    jobID: "AJ_KVW9ehfQNziE"
+[20:16:59.217] [34mDEBUG[39m (37316): [36mjob exiting[39m
+[20:16:59.225] [34mDEBUG[39m (24560): [36mUser turn commit task cancelled[39m
+[20:16:59.227] [34mDEBUG[39m (24560): [36mFFmpeg encoding finished[39m
+[20:16:59.243] [34mDEBUG[39m (24560): [36mUser turn commit task cancelled[39m
+[agent] Room "Oo87xEEO1-ICiEi5mhTjf" closed. Transcript lines: 0
+[20:16:59.229] [34mDEBUG[39m (24560): [36mTask.runTask: task recorder_io_encode_task done[39m
+[20:16:59.231] [34mDEBUG[39m (24560): [36muserTranscriptWriter already closed or errored[39m
+    error: {
+      "type": "TypeError",
+      "message": "Invalid state: Failure to close WritableStream",
+      "stack":
+          TypeError [ERR_INVALID_STATE]: Invalid state: Failure to close WritableStream
+              at WritableStreamDefaultWriter.close (node:internal/webstreams/writablestream:424:9)
+              at RoomIO.close (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\voice\room_io\room_io.ts:535:39)
+              at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+              at async AgentSession.closeImplInner (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\voice\agent_session.ts:1174:5)
+              at async <anonymous> (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\voice\agent_session.ts:1111:9)
+              at async AgentSession.close (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\voice\agent_session.ts:869:5)
+              at async <anonymous> (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\dist\ipc\job_proc_lazy_main.js:129:7)
+      "code": "ERR_INVALID_STATE"
+    }
+[20:16:59.244] [32mINFO[39m (24560): [36mAgentSession closed[39m
+    reason: "user_initiated"
+    error: null
+[20:16:59.253] [32mINFO[39m (24560): [36mAgentSession closed[39m
+    reason: "participant_disconnected"
+    error: null
+[20:16:59.308] [34mDEBUG[39m (24560): [36mGemini Live session closed:[39m
+[20:16:59.747] [31mERROR[39m (24560): [36mFailed to upload session report[39m
+    jobId: "AJ_KVW9ehfQNziE"
+    roomName: "Oo87xEEO1-ICiEi5mhTjf"
+    error: {
+      "type": "Error",
+      "message": "Failed to upload session report: 500 Internal Server Error - \b\r\u0012\u001dunable to find storage region\u001a.\n(type.googleapis.com/google.rpc.RetryInfo\u0012\u0002\n\u0000",
+      "stack":
+          Error: Failed to upload session report: 500 Internal Server Error - unable to find storage region.
+          (type.googleapis.com/google.rpc.RetryInfo
+           
+              at IncomingMessage.<anonymous> (C:\Users\mahan\Documents\me\next15-meet-ai\agent\node_modules\@livekit\agents\src\telemetry\traces.ts:659:15)
+              at IncomingMessage.emit (node:events:520:35)
+              at endReadableNT (node:internal/streams/readable:1701:12)
+              at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+    }
+[20:16:59.840] [34mDEBUG[39m (24560): [36mSession ended, report generated[39m
+    jobId: "AJ_KVW9ehfQNziE"
+    roomName: "Oo87xEEO1-ICiEi5mhTjf"
+    roomId: "RM_cqxfkggKzsY6"
+    eventsCount: 59
+[20:16:59.882] [34mDEBUG[39m (24560): [36mdisconnected from room[39m
+    jobID: "AJ_KVW9ehfQNziE"
+[20:16:59.883] [34mDEBUG[39m (24560): [36mnative resources disposed[39m
+    jobID: "AJ_KVW9ehfQNziE"
+[20:16:59.883] [34mDEBUG[39m (24560): [36mJob process shutdown[39m
+    jobID: "AJ_KVW9ehfQNziE"
+[21:01:16.517] [31mERROR[39m (37316): [36mworker connection closed unexpectedly[39m
+    version: "1.2.3"
+[21:01:16.807] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 2 seconds: (1/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:18.836] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 4 seconds: (2/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:22.848] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 6 seconds: (3/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:28.860] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 8 seconds: (4/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:36.869] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (5/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:46.887] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (6/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:01:56.921] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (7/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:02:07.109] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (8/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:02:17.128] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (9/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:02:27.139] [33mWARN[39m (37316): [36mfailed to connect to LiveKit server (wss://meet-ai-h13devyj.livekit.cloud), retrying in 10 seconds: (10/10)[39m
+    version: "1.2.3"
+    err: {
+      "type": "Error",
+      "message": "getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud",
+      "stack":
+          Error: getaddrinfo ENOTFOUND meet-ai-h13devyj.livekit.cloud
+              at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+      "errno": -3008,
+      "code": "ENOTFOUND",
+      "syscall": "getaddrinfo",
+      "hostname": "meet-ai-h13devyj.livekit.cloud"
+    }
+[21:02:37.160] [41mFATAL[49m (37316): [36mclosing worker due to error.[39m

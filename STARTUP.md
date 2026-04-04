@@ -1,89 +1,123 @@
-# Meet.AI — Technical Documentation & System Overview
+# 🚀 MeetAI — Complete Startup Guide
 
-## 1. Architecture Overview
-Meet.AI is a real-time AI meeting assistant platform built on **Next.js 15**, **LiveKit Cloud**, and **Google Gemini 2.x**. The system is designed to provide ultra-low latency, multimodal voice interactions and automated post-meeting intelligence (summaries and transcripts).
+## ⚠️ FIRST TIME ONLY: Clean Install the Agent
 
-### High-Level Flow
-1. **Meeting Creation**: Next.js server creates a LiveKit Room and initializes metadata (persona name, instructions) in the database.
-2. **Real-time Session**:
-   - When a human joins, a **LiveKit Webhook** triggers the **Agent Worker**.
-   - The Agent joins as a participant and connects via the **Gemini Live API (Multimodal)**.
-   - Conversation is handled by a native-audio model with custom **STT Turn Detection** for human-like interruption handling.
-3. **Processing**:
-   - Upon participant departure, the Agent submits the full transcript to our `/end-session` API.
-   - **Inngest** triggers a background job to generate an executive summary using Gemini.
-   - The final transcript and summary are stored in the Postgres (Neon) database.
+The agent has native dependencies. Run this ONCE to ensure they're installed correctly:
+
+```powershell
+cd "C:\Users\mahan\Documents\me\next15-meet-ai\agent"
+.\clean-install.bat
+```
+
+This deletes old `node_modules` (which may have a broken silero/rtc-node) and reinstalls fresh.
 
 ---
 
-## 2. Core Service Directory (`src/`)
+## ⚡ Every Time: Start 3 Terminals
 
-### API Routes & Webhooks
-- `src/app/api/webhook/route.ts`: The central nervous system for LiveKit events.
-  - `participant_joined`: Activates the meeting and dispatches the AI agent.
-  - `participant_left`: Handles session cleanup.
-  - `egress_ended`: Saves final recording/transcript URLs.
-- `src/app/api/livekit/token/route.ts`: Issues JWT tokens for human participants.
-- `src/app/api/meetings/[meetingId]/end-session/route.ts`: Internal endpoint used by the AI Agent to submit transcripts after a call finishes. Secured by `x-agent-secret`.
+### Terminal 1 — Next.js App
+```powershell
+# Kill any leftover node processes first!
+taskkill /F /IM node.exe 2>$null
 
-### Modules (Shared UI & Logic)
-- `src/modules/call/`: Frontend meeting interface.
-  - `ui/components/call-active.tsx`: The main meeting grid. Includes `Microphone` sources for AI visibility.
-  - `ui/components/call-connect.tsx`: Handles Token fetching and initial room connection.
-- `src/modules/meetings/`: Management and post-call analytics.
-  - `server/procedures.ts`: tRPC mutations for meeting lifecycle (Create, Update, Remove).
+cd "C:\Users\mahan\Documents\me\next15-meet-ai"
+npm run dev
+```
+App → http://localhost:3000
 
----
+### Terminal 2 — LiveKit Agent
+```powershell
+cd "C:\Users\mahan\Documents\me\next15-meet-ai\agent"
+npm run dev
+```
 
-## 3. AI Agent Worker (`agent/`)
+Wait for this in the agent terminal:
+```
+[agent] GOOGLE_API_KEY: ✅ EXISTS
+registered worker
+```
 
-The agent is a standalone Node.js process using the `@livekit/agents` framework.
-
-### Key Components
-- `agent/src/agent.ts`: The entry point for the worker.
-  - Uses `google.beta.realtime.RealtimeModel` for native audio LLM logic.
-  - Implements `MultilingualModel` turn detection to allow users to interrupt the AI naturally.
-  - Handles the `disconnected` event to push the transcript to the backend.
-- `agent/src/meet-agent.ts`: A specialized extension of the `voice.Agent` class that initializes instructions dynamicallly from room metadata.
-
-#### Environment Variables for Agent
-- `LIVEKIT_URL` / `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET`: LiveKit connection info.
-- `GOOGLE_API_KEY`: Required for Gemini Realtime API.
-- `AGENT_SECRET`: Shared secret used to authenticate with the backend `/end-session` API.
+### Terminal 3 — Inngest Dev Server (for post-meeting summaries)
+```powershell
+cd "C:\Users\mahan\Documents\me\next15-meet-ai"
+npx inngest-cli@latest dev -u http://localhost:3000/api/inngest
+```
 
 ---
 
-## 4. Stability & Lifecycle Fixes (Current State)
+## 🔍 Verify Everything Works
 
-### Fix: Agent Joining (Dispatch)
-We transition from "dispatch-on-create" to **"dispatch-on-join"**. The agent is now summoned by the `participant_joined` webhook. For local development robustness, we've also wired the human join logic to verify if an agent dispatch is needed if the webhook isn't reachable from LiveKit Cloud.
-
-### Fix: Hydration & Rendering
-- **Root Layout Mismatch**: Fixed by moving provider components inside the `<body>` tag.
-- **Infinite Effect Loops**: Stabilized `useEffect` hooks across `call-connect.tsx` and `sidebar.tsx` by ensuring stable dependency arrays and implementing cancellation logic for unmounted components.
+Open in browser after starting all 3 terminals:
+```
+http://localhost:3000/api/debug
+```
+ALL checks must show ✅
 
 ---
 
-## 5. Development Guide
+## ✅ How a Meeting Works End-to-End
 
-### Prerequisites
-- Node.js 20+
-- LiveKit Cloud account
-- Google Gemini API Key
+1. Start all 3 terminals
+2. Open http://localhost:3000/api/debug — verify all ✅
+3. Sign in at http://localhost:3000
+4. Create an Agent (give it instructions, e.g. "You are a math tutor")
+5. Create a Meeting and assign that agent
+6. Click Start → Join Call
+7. **Agent joins within 5–10 seconds and greets you**
+8. Have a conversation
+9. When done, click Leave Call (the X button in controls)
+10. Within 30 seconds you should see in the Next.js terminal:
+    ```
+    [end-session] 📝 Meeting <id> — transcript: 843 chars
+    [end-session] ✅ Meeting <id> marked as processing
+    [end-session] 🚀 Inngest triggered for meeting <id>
+    ```
+11. Go to Meetings → select the meeting → Summary tab
+12. Summary appears within 30–60 seconds
 
-### Setup Instructions
-1. Install dependencies: `npm install` (root) and `cd agent && npm install`.
-2. Configure `.env`: Copy `.env.example`, fill in LiveKit and Google keys.
-3. Run the stack:
-   ```bash
-   # Terminal 1: Next.js Frontend
-   npm run dev
+---
 
-   # Terminal 2: AI Agent Worker
-   cd agent
-   npm run dev
-   ```
+## ❗ Troubleshooting
 
-### Troubleshooting
-- **Agent not joining**: Verify your `LIVEKIT_URL` matches between `.env` and `agent/.env`. Ensure the agent worker process is running and showing `edition: Cloud` in logs.
-- **Transcript missing**: Check `AGENT_SECRET` consistency. Verify that your local dev server is accessible if testing webhooks (use `ngrok` for `egress_ended` events).
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Agent doesn't appear in call | Agent terminal not running | Start Terminal 2 |
+| Agent terminal shows ENOTFOUND | Intermittent network hiccup | It auto-retries — wait 15s |
+| Agent appears but doesn't speak | GOOGLE_API_KEY missing/wrong | Check .env has correct key |
+| "No transcript recorded" in summary | Agent transcript events not firing | Ensure you actually SPOKE in the call |
+| Meeting stuck "Processing" | Inngest not running | Start Terminal 3 |
+| Port 3000 in use | Old node process | Run `taskkill /F /IM node.exe` first |
+| `@livekit/rtc-node` error | Native install broken | Run `agent\clean-install.bat` |
+
+---
+
+## 🔑 Tech Stack
+
+| Feature | Technology |
+|---------|------------|
+| Frontend | Next.js 15 + LiveKit React SDK |
+| Real-time calls | LiveKit Cloud |
+| Agent voice | Gemini 2.0 Flash Realtime |
+| Post-meeting summary | Gemini 1.5 Flash via Inngest |
+| Database | Neon (Postgres) + Drizzle ORM |
+| Auth | Better Auth |
+| Subscriptions | Polar |
+
+---
+
+## 🔑 Required .env Values
+
+```env
+DATABASE_URL="postgresql://..."
+BETTER_AUTH_SECRET="..."
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+GOOGLE_API_KEY="AIza..."         ← Your Gemini API key
+GEMINI_API_KEY="AIza..."         ← Same key, different name (agent uses both)
+LIVEKIT_URL="wss://..."
+LIVEKIT_API_KEY="API..."
+LIVEKIT_API_SECRET="..."
+NEXT_PUBLIC_LIVEKIT_URL="wss://..."
+AGENT_SECRET="meetai-agent-secret-2025"
+POLAR_ACCESS_TOKEN="polar_oat_..."
+```

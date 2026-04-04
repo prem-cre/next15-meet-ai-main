@@ -1,5 +1,4 @@
 import { eq, inArray } from "drizzle-orm";
-import JSONL from "jsonl-parse-stringify";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { db } from "@/db";
@@ -8,133 +7,163 @@ import { inngest } from "@/inngest/client";
 
 import { StreamTranscriptItem } from "@/modules/meetings/types";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? "");
+// ── Gemini summarizer helper ─────────────────────────────────────────────────
+async function summarizeWithGemini(transcriptText: string): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!apiKey) {
+    throw new Error("No Gemini API key found. Set GEMINI_API_KEY or GOOGLE_API_KEY in .env");
+  }
 
-const SUMMARIZER_SYSTEM_PROMPT = `
-You are an expert meeting summarizer. You write readable, concise, and well-structured content.
-You are given a transcript of a meeting and need to summarize it clearly.
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-Use the following markdown structure for every output:
+  const prompt = `You are an expert meeting summarizer. Analyze this meeting transcript and produce a clear, well-structured summary.
+
+Use this exact markdown format:
 
 ### Overview
-Provide a detailed, engaging summary of the meeting. Focus on major topics discussed, decisions made, and key takeaways. Write in a narrative style using full sentences.
+Write a detailed, engaging narrative summary of the meeting. Cover the main topics discussed, decisions made, and key takeaways. Use full sentences. Minimum 3-4 sentences.
 
 ### Notes
-Break down key content into thematic sections with timestamp ranges. Each section should summarize key points, actions, or demos in bullet format.
+Break down key content into thematic sections with timestamps where available. Use bullet points.
 
 Example:
 #### Section Name
-- Main point or topic discussed
-- Another key insight or decision
-- Action item or follow-up
+- Key point or topic discussed
+- Decision made or action item
+- Follow-up or next step
 
-#### Next Section
-- Feature X does Y
-- Integration with Z was mentioned
-`.trim();
+Now summarize this transcript:
 
+${transcriptText}`;
+
+  const result = await model.generateContent(prompt);
+  const text = result.response.text();
+  if (!text || text.trim().length < 20) {
+    throw new Error("Gemini returned empty or very short summary");
+  }
+  return text.trim();
+}
+
+// ── Inngest function ─────────────────────────────────────────────────────────
 export const meetingsProcessing = inngest.createFunction(
   { id: "meetings/processing" },
   { event: "meetings/processing" },
   async ({ event, step }) => {
-    // Step 1: Get the transcript text
-    // It could come as inline text from the agent or as a URL from LiveKit egress
-    const transcriptRaw = await step.run("get-transcript", async () => {
-      // Inline transcript text sent directly by the agent
-      if (event.data.transcriptText) {
-        return event.data.transcriptText as string;
+    const { meetingId, transcriptText, transcriptUrl } = event.data as {
+      meetingId: string;
+      transcriptText?: string;
+      transcriptUrl?: string;
+    };
+
+    console.log(`[summarize] 🤖 Starting summarization for meeting: ${meetingId}`);
+    console.log(`[summarize] transcriptText chars: ${transcriptText?.length ?? 0}, transcriptUrl: ${transcriptUrl ?? "none"}`);
+
+    // ── Step 1: Get the raw transcript text ───────────────────────────────────
+    const rawTranscript = await step.run("get-transcript-text", async () => {
+      // Case A: Agent sent plain text transcript directly
+      if (transcriptText && transcriptText.trim() && transcriptText !== "__EMPTY__") {
+        console.log(`[summarize] 📝 Using inline transcript (${transcriptText.length} chars)`);
+        return transcriptText;
       }
-      // Fallback: fetch from URL (LiveKit egress or old Stream format)
-      if (event.data.transcriptUrl) {
-        return await fetch(event.data.transcriptUrl).then((res) => res.text());
+
+      // Case B: JSONL URL from LiveKit egress (older path)
+      if (transcriptUrl) {
+        try {
+          const res = await fetch(transcriptUrl);
+          const text = await res.text();
+          console.log(`[summarize] 📥 Fetched from URL (${text.length} chars)`);
+          return text;
+        } catch (err) {
+          console.error(`[summarize] ❌ Failed to fetch transcript URL:`, err);
+          return "";
+        }
       }
+
+      // Case C: Check if transcriptUrl was stored in the DB (inline text)
+      const [meeting] = await db.select().from(meetings).where(eq(meetings.id, meetingId));
+      if (meeting?.transcriptUrl && meeting.transcriptUrl.trim() && meeting.transcriptUrl !== "__EMPTY__") {
+        // transcriptUrl column repurposed for inline transcript text
+        if (!meeting.transcriptUrl.startsWith("http")) {
+          console.log(`[summarize] 📝 Using transcript from DB column (${meeting.transcriptUrl.length} chars)`);
+          return meeting.transcriptUrl;
+        }
+        // It's an actual URL
+        try {
+          const res = await fetch(meeting.transcriptUrl);
+          return await res.text();
+        } catch {
+          return "";
+        }
+      }
+
       return "";
     });
 
-    if (!transcriptRaw || transcriptRaw.trim().length === 0) {
-      // No transcript → mark as completed immediately
-      await step.run("no-transcript", async () => {
+    // If no transcript, mark completed without summary
+    if (!rawTranscript || rawTranscript.trim().length < 10 || rawTranscript.trim() === "__EMPTY__") {
+      console.log(`[summarize] ⚠️ No meaningful transcript found for ${meetingId}, marking completed`);
+      await step.run("mark-completed-no-summary", async () => {
         await db
           .update(meetings)
-          .set({ status: "completed", summary: "No transcript available for this meeting." })
-          .where(eq(meetings.id, event.data.meetingId));
+          .set({ status: "completed", summary: "No transcript was recorded for this meeting." })
+          .where(eq(meetings.id, meetingId));
       });
-      return;
+      return { status: "completed", note: "no transcript" };
     }
 
-    // Step 2: Parse transcript (supports JSONL and plain text)
-    const formattedTranscript = await step.run("format-transcript", async () => {
-      // Try parsing as JSONL first
-      try {
-        const parsed = JSONL.parse<StreamTranscriptItem>(transcriptRaw);
-        if (parsed.length > 0) {
-          // Resolve speaker IDs to names
-          const speakerIds = [...new Set(parsed.map((item) => item.speaker_id))];
+    // ── Step 2: Parse and enrich transcript if it's JSONL format ──────────────
+    const enrichedTranscript = await step.run("parse-and-enrich", async () => {
+      // Detect if it's JSONL (agent plain text won't look like JSON)
+      const firstChar = rawTranscript.trim()[0];
+      if (firstChar === "{" || firstChar === "[") {
+        try {
+          const JSONL = await import("jsonl-parse-stringify");
+          const items = JSONL.default.parse<StreamTranscriptItem>(rawTranscript);
+          const speakerIds = [...new Set(items.map((i) => i.speaker_id))];
 
-          const userSpeakers = await db
-            .select()
-            .from(user)
-            .where(inArray(user.id, speakerIds))
-            .then((rows) => rows.map((u) => ({ ...u })));
-
-          const agentSpeakers = await db
-            .select()
-            .from(agents)
-            .where(inArray(agents.id, speakerIds))
-            .then((rows) => rows.map((a) => ({ ...a })));
-
+          const userSpeakers = await db.select().from(user).where(inArray(user.id, speakerIds));
+          const agentSpeakers = await db.select().from(agents).where(inArray(agents.id, speakerIds));
           const speakers = [...userSpeakers, ...agentSpeakers];
 
-          return parsed
-            .map((item) => {
-              const speaker = speakers.find((s) => s.id === item.speaker_id);
-              const name = speaker?.name ?? "Unknown";
-              return `[${name}]: ${item.text}`;
-            })
-            .join("\n");
+          const lines = items.map((item) => {
+            const speaker = speakers.find((s) => s.id === item.speaker_id);
+            const name = speaker?.name ?? "Unknown";
+            return `[${name}]: ${item.text}`;
+          });
+          return lines.join("\n");
+        } catch {
+          // Not parseable JSONL, treat as plain text
+          return rawTranscript;
         }
-      } catch {
-        // Not JSONL — use as plain text
       }
 
-      // Plain text transcript (from agent)
-      return transcriptRaw;
+      // Already plain text (from agent)
+      return rawTranscript;
     });
 
-    // Step 3: Run the Gemini summarizer
-    const summary = await step.run("generate-summary", async () => {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
-      const result = await model.generateContent({
-        contents: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: `${SUMMARIZER_SYSTEM_PROMPT}\n\n--- TRANSCRIPT ---\n${formattedTranscript}`,
-              },
-            ],
-          },
-        ],
-        generationConfig: {
-          maxOutputTokens: 2048,
-          temperature: 0.3,
-        },
-      });
-
-      const response = result.response;
-      return response.text();
+    // ── Step 3: Run Gemini summarizer ──────────────────────────────────────────
+    const summary = await step.run("gemini-summarize", async () => {
+      console.log(`[summarize] 🤖 Calling Gemini for meeting ${meetingId} (${enrichedTranscript.length} chars)`);
+      try {
+        const result = await summarizeWithGemini(enrichedTranscript);
+        console.log(`[summarize] ✅ Gemini returned ${result.length} chars`);
+        return result;
+      } catch (err) {
+        console.error(`[summarize] ❌ Gemini error:`, err);
+        return `Summary generation failed: ${String(err)}`;
+      }
     });
 
-    // Step 4: Save summary and mark meeting as completed
+    // ── Step 4: Save summary, mark meeting completed ───────────────────────────
     await step.run("save-summary", async () => {
       await db
         .update(meetings)
-        .set({
-          summary,
-          status: "completed",
-        })
-        .where(eq(meetings.id, event.data.meetingId));
+        .set({ summary, status: "completed" })
+        .where(eq(meetings.id, meetingId));
+      console.log(`[summarize] ✅ Summary saved for meeting ${meetingId}`);
     });
+
+    return { status: "completed", summaryLength: summary.length };
   }
 );
