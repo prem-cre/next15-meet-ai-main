@@ -10,7 +10,6 @@ import { CallEnded } from "./call-ended";
 interface Props {
   meetingId: string;
   meetingName: string;
-  userId: string;
   userName: string;
   userImage: string;
   token: string;
@@ -24,7 +23,6 @@ interface Props {
 export const CallUI = ({
   meetingId,
   meetingName,
-  userId,
   userName,
   userImage,
   token,
@@ -59,16 +57,6 @@ export const CallUI = ({
     } catch (err) {
       console.error("[CallUI] Failed to connect:", err);
     }
-  };
-
-  const handleLeave = async () => {
-    console.log("[CallUI] Leaving room...");
-    try {
-      await room.disconnect();
-    } catch {
-      // ignore
-    }
-    setShow("ended");
   };
 
   return (

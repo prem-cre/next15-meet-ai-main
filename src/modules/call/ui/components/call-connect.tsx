@@ -96,7 +96,6 @@ export const CallConnect = ({ meetingId, meetingName }: Props) => {
       <CallUI
         meetingId={meetingId}
         meetingName={meetingName}
-        userId={userId}
         userName={userName}
         userImage={userImage}
         token={token}

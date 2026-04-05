@@ -167,3 +167,51 @@ export const meetingsProcessing = inngest.createFunction(
     return { status: "completed", summaryLength: summary.length };
   }
 );
+
+// ── Safety Net ───────────────────────────────────────────────────────────────
+// Triggered when a room finishes — ensures summarization runs even if the 
+// agent fails to call /end-session itself.
+export const meetingsSafetyNet = inngest.createFunction(
+  { id: "meetings/safety-net" },
+  { event: "meetings/safety-net" },
+  async ({ event, step }) => {
+    const { meetingId } = event.data;
+
+    await step.sleep("wait-for-agent", "25s");
+
+    const meeting = await step.run("check-meeting-status", async () => {
+      const [m] = await db
+        .select()
+        .from(meetings)
+        .where(eq(meetings.id, meetingId));
+      return m;
+    });
+
+    if (!meeting) return { status: "not_found" };
+
+    if (meeting.status === "processing") {
+      console.log(`[safety-net] ⏰ Running summarization for ${meetingId}`);
+      
+      const transcript = meeting.transcriptUrl?.trim() || "";
+      if (transcript.length > 10 && transcript !== "__EMPTY__") {
+        await step.sendEvent("trigger-processing", {
+          name: "meetings/processing",
+          data: { meetingId, transcriptText: transcript },
+        });
+      } else {
+        await step.run("mark-completed-no-summary", async () => {
+          await db
+            .update(meetings)
+            .set({ 
+              status: "completed", 
+              summary: "No transcript was recorded for this meeting." 
+            })
+            .where(eq(meetings.id, meetingId));
+        });
+      }
+      return { status: "summarized" };
+    }
+
+    return { status: "already_completed", current_status: meeting.status };
+  }
+);

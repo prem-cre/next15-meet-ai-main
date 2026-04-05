@@ -1,4 +1,5 @@
 import { eq, notInArray } from "drizzle-orm";
+export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
   // Since drizzle doesn't support AND with notInArray + eq directly in some versions,
   // let's do it as a separate check:
-  if (updatedMeeting.length === 0) {
+  if (!updatedMeeting) {
     // Try a direct update by id
     const [direct] = await db
       .update(meetings)

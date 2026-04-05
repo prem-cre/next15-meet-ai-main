@@ -9,7 +9,7 @@ import { agentDispatchService, roomService } from "@/lib/livekit-server";
  * This endpoint allows the frontend to manually summon the AI Agent upon connection!
  */
 export async function POST(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ meetingId: string }> }
 ) {
   const { meetingId } = await params;
