@@ -21,6 +21,7 @@ export const auth = betterAuth({
   plugins: [
     polar({
       client: polarClient,
+      organizationId: process.env.POLAR_ORGANIZATION_ID,
       createCustomerOnSignUp: true,
       use: [
         checkout({
